@@ -207,7 +207,17 @@ fn nested_archive_script_is_found_and_fails_policy() {
 #[test]
 fn html_output_escapes_hostile_names() {
     let root = temp_root("html");
-    let f = root.join("<img src=x onerror=alert(1)>.txt");
+    // Windows file names cannot contain < or >; & and ' still need escaping.
+    let (name, escaped, raw) = if cfg!(windows) {
+        ("a&b'c.txt", "a&amp;b&#39;c.txt", "a&b'c")
+    } else {
+        (
+            "<img src=x onerror=alert(1)>.txt",
+            "&lt;img src=x onerror=alert(1)&gt;",
+            "<img",
+        )
+    };
+    let f = root.join(name);
     std::fs::write(&f, "hello").unwrap();
     let out = run(
         &root,
@@ -221,8 +231,8 @@ fn html_output_escapes_hostile_names() {
         ],
     );
     let html = String::from_utf8_lossy(&out.stdout);
-    assert!(html.contains("&lt;img src=x onerror=alert(1)&gt;"));
-    assert!(!html.contains("<img"));
+    assert!(html.contains(escaped), "{html}");
+    assert!(!html.contains(raw));
     assert!(html.contains("Content-Security-Policy"));
 }
 

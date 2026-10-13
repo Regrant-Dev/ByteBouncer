@@ -94,6 +94,12 @@ pub fn sbpl(profile: &Profile) -> String {
         s.push_str("(allow sysctl-read)\n(allow file-read-metadata)\n");
         let sys: Vec<PathBuf> = SYSTEM_READ.iter().map(PathBuf::from).collect();
         s.push_str(&format!("(allow file-read*{})\n", path_filters(&sys)));
+        // dyld must map the shared cache and system libraries as code;
+        // without this every program is killed in the loader.
+        s.push_str(&format!(
+            "(allow file-map-executable{})\n",
+            path_filters(&sys)
+        ));
         s.push_str(
             "(allow file-read* file-write-data (literal \"/dev/null\") (literal \"/dev/zero\"))\n\
              (allow file-read* (literal \"/dev/urandom\") (literal \"/dev/random\"))\n\
@@ -114,7 +120,9 @@ pub fn sbpl(profile: &Profile) -> String {
         let f = path_filters(&profile.executable);
         s.push_str(&format!("(allow file-read*{f})\n"));
         if !tier1 {
-            s.push_str(&format!("(allow process-exec{f})\n(allow process-fork)\n"));
+            s.push_str(&format!(
+                "(allow process-exec{f})\n(allow process-fork)\n(allow file-map-executable{f})\n"
+            ));
         }
     }
     if !profile.read_write.is_empty() {

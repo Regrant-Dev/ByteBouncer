@@ -225,7 +225,12 @@ mod tests {
             1000,
             &AtomicBool::new(false),
         );
-        assert_eq!(out.status, Status::Exited(0));
+        assert_eq!(
+            out.status,
+            Status::Exited(0),
+            "stderr: {}",
+            out.stderr_tail()
+        );
         assert_eq!(out.stdout.len(), 1000);
         assert!(out.stdout_truncated);
         assert_eq!(out.stderr_tail(), "err");
@@ -241,7 +246,12 @@ mod tests {
             1000,
             &AtomicBool::new(false),
         );
-        assert_eq!(out.status, Status::TimedOut);
+        assert_eq!(
+            out.status,
+            Status::TimedOut,
+            "stderr: {}",
+            out.stderr_tail()
+        );
         assert!(t.elapsed() < Duration::from_secs(10));
     }
 
