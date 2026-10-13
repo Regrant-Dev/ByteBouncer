@@ -168,8 +168,20 @@ fn platform_tool_defaults(_scratch: &Path) -> ToolDefaults {
             "/opt/homebrew",
             "/Library/Java",
             "/System/Library",
+            // macOS 13+ keeps the dyld shared cache in a cryptex; without it
+            // every program dies in the loader before main().
+            "/System/Volumes/Preboot/Cryptexes",
+            "/System/Cryptexes",
         ],
-        &["/private/etc", "/dev/null", "/dev/urandom", "/dev/random"],
+        &[
+            "/private/etc",
+            // /bin/sh reads this to pick the real shell.
+            "/private/var/select",
+            "/private/var/db/timezone",
+            "/dev/null",
+            "/dev/urandom",
+            "/dev/random",
+        ],
         vec![(
             "PATH".into(),
             "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin".into(),

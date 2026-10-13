@@ -170,6 +170,17 @@ pub fn run(spec: RunSpec<'_>, cancel: &AtomicBool) -> Result<RunOutput, RunError
     kill_group(&mut child);
     let (stdout, stdout_truncated) = out.and_then(|h| h.join().ok()).unwrap_or_default();
     let (stderr, _) = err.and_then(|h| h.join().ok()).unwrap_or_default();
+    // On macOS tools start through `sandbox-exec`, which reports a missing or
+    // unexecutable program as exit 71 instead of a spawn error.
+    if status == Status::Exited(71) {
+        let text = String::from_utf8_lossy(&stderr);
+        if let Some(line) = text
+            .lines()
+            .find(|l| l.starts_with("sandbox-exec: execvp()"))
+        {
+            return Err(RunError::Spawn(line.to_owned()));
+        }
+    }
     Ok(RunOutput {
         status,
         stdout,

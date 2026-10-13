@@ -40,6 +40,7 @@ impl PrivateDir {
             std::process::id(),
             ulid::Ulid::new()
         ));
+        #[cfg_attr(not(unix), allow(unused_mut))]
         let mut b = std::fs::DirBuilder::new();
         #[cfg(unix)]
         std::os::unix::fs::DirBuilderExt::mode(&mut b, 0o700);
