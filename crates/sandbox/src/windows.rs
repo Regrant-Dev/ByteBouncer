@@ -78,6 +78,14 @@ use windows_sys::Win32::System::Threading::{
 
 use crate::{Applied, Limits, Network, Profile, SpawnError};
 
+/// Launch/cleanup tracing on stderr, enabled by BYTEBOUNCER_SANDBOX_TRACE
+/// (used by CI to locate hangs).
+fn trace(what: std::fmt::Arguments<'_>) {
+    if std::env::var_os("BYTEBOUNCER_SANDBOX_TRACE").is_some() {
+        eprintln!("bytebouncer-sandbox[{}]: {what}", std::process::id());
+    }
+}
+
 /// Well-known capability SID for outbound internet access.
 const INTERNET_CLIENT: &str = "S-1-15-3-1";
 
@@ -533,11 +541,16 @@ impl Drop for Child {
             drop(job);
             let _ = self.wait_ms(5_000);
         }
+        trace(format_args!(
+            "child {}: job closed, revoking grants",
+            self.pid
+        ));
         drop(self.grants.take());
         if let Some(name) = self.registered.take() {
             // SAFETY: name is NUL-terminated.
             unsafe { DeleteAppContainerProfile(name.as_ptr()) };
         }
+        trace(format_args!("child {}: cleaned up", self.pid));
     }
 }
 
@@ -589,7 +602,13 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         Network::TcpConnectPorts(_) => vec![Sid::from_string(INTERNET_CLIENT)?],
     };
     let job = create_job(&l.profile.limits, l.single_process)?;
+    trace(format_args!("{}: job created, applying grants", l.label));
     let grants = Grants::apply(Sid(sid.0.clone()), l.profile, &[l.program]);
+    trace(format_args!(
+        "{}: {} grants applied",
+        l.label,
+        grants.paths.len()
+    ));
 
     let (in_r, in_w) = pipe()?;
     let (out_r, out_w) = pipe()?;
@@ -608,6 +627,7 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
     // redirected LOCALAPPDATA/TEMP (see env_block). The profile is deleted
     // when the child is dropped.
     register_profile(&name)?;
+    trace(format_args!("{}: profile registered", l.label));
     let pi = match create_process(
         &app,
         &command_line(l.program, &l.args),
@@ -624,6 +644,10 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
             return Err(e);
         }
     };
+    trace(format_args!(
+        "{}: process {} created",
+        l.label, pi.dwProcessId
+    ));
     // SAFETY: CreateProcessW returned these handles; we own them.
     let (process, thread) = unsafe {
         (
@@ -650,6 +674,10 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         return Err(e);
     }
     drop((in_r, out_w, err_w));
+    trace(format_args!(
+        "{}: process {} resumed",
+        l.label, pi.dwProcessId
+    ));
     Ok(Child {
         stdin: Some(ChildStdin::from(in_w)),
         stdout: Some(ChildStdout::from(out_r)),

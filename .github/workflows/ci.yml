@@ -37,6 +37,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
     defaults:
       run:
         shell: bash
@@ -84,6 +85,18 @@ jobs:
           done
           sleep 2
           log show --last 2m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | tail -60 || true
+
+      # Diagnostic: a worker launch with tracing, under a hard time limit, so a
+      # hang shows where it stops instead of stalling the job.
+      - name: Worker launch trace (Windows, informational)
+        if: runner.os == 'Windows'
+        continue-on-error: true
+        env:
+          BYTEBOUNCER_SANDBOX_TRACE: "1"
+        run: |
+          timeout 120 ./target/debug/bytebouncer doctor; echo "doctor exit $?"
+          cp ./target/debug/bytebouncer.exe "$RUNNER_TEMP/sample.exe"
+          timeout 300 ./target/debug/bytebouncer inspect --output "$RUNNER_TEMP/trace.json" "$RUNNER_TEMP/sample.exe" >/dev/null; echo "inspect exit $?"
 
       - name: Clippy
         run: cargo clippy --locked --workspace --all-targets -- -D warnings

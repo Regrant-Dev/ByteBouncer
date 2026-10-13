@@ -182,11 +182,18 @@ pub fn run_worker(req: &WorkerRequest, cancel: &Arc<AtomicBool>) -> Result<Worke
         std::thread::sleep(Duration::from_millis(20));
     };
 
+    let trace = std::env::var_os("BYTEBOUNCER_SANDBOX_TRACE").is_some();
+    if trace {
+        eprintln!("bytebouncer: worker exited ({status}), reading its output");
+    }
     let out = reader
         .join()
         .expect("reader thread")
         .context("reading worker output")?;
     let err = err_reader.join().unwrap_or_default();
+    if trace {
+        eprintln!("bytebouncer: worker output read ({} bytes)", out.len());
+    }
     if !status.success() {
         return Ok(WorkerResult::Crashed(format!(
             "worker exited with {status}: {}",
