@@ -1,0 +1,4 @@
+# Keep line endings exactly as committed on every platform: test fixtures
+# are checked against recorded hashes, and Windows checkouts would
+# otherwise rewrite them to CRLF.
+* -text

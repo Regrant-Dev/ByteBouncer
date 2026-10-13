@@ -439,7 +439,7 @@ pub struct Child {
     pid: u32,
     job: Option<OwnedHandle>,
     grants: Option<Grants>,
-    /// Registered AppContainer profile to delete (only if registration was needed).
+    /// Registered AppContainer profile to delete.
     registered: Option<Vec<u16>>,
     status: Option<ExitStatus>,
 }
@@ -537,6 +537,32 @@ impl Drop for Child {
     }
 }
 
+/// Register an AppContainer profile named `name` (already existing is fine).
+fn register_profile(name: &[u16]) -> io::Result<()> {
+    const ALREADY_EXISTS: i32 = 0x800700B7_u32 as i32;
+    let disp = wide(OsStr::new("ByteBouncer sandbox"));
+    let mut p: PSID = null_mut();
+    // SAFETY: strings are NUL-terminated; p receives a SID freed below.
+    let hr = unsafe {
+        CreateAppContainerProfile(
+            name.as_ptr(),
+            disp.as_ptr(),
+            disp.as_ptr(),
+            null(),
+            0,
+            &mut p,
+        )
+    };
+    if hr == ALREADY_EXISTS {
+        return Ok(());
+    }
+    hresult(hr)
+        .map_err(|e| io::Error::new(e.kind(), format!("registering AppContainer profile: {e}")))?;
+    // SAFETY: p was allocated by CreateAppContainerProfile.
+    unsafe { FreeSid(p) };
+    Ok(())
+}
+
 struct Launch<'a> {
     label: &'a str,
     profile: &'a Profile,
@@ -574,7 +600,11 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
     let cwd = wide(l.cwd.unwrap_or_else(|| default_cwd(l.profile)).as_os_str());
     let env = env_block(&l.profile.env);
 
-    let mut registered = None;
+    // Register the AppContainer profile up front: starting a process in an
+    // unregistered container fails on current Windows (with a misleading
+    // ERROR_ENVVAR_NOT_FOUND), and registration errors are worth reporting
+    // as themselves. The profile is deleted when the child is dropped.
+    register_profile(&name)?;
     let pi = match create_process(
         &app,
         &command_line(l.program, &l.args),
@@ -585,44 +615,10 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         child_ends,
     ) {
         Ok(pi) => pi,
-        Err(first) => {
-            // Some Windows builds want the AppContainer profile registered
-            // before a process can use its SID: register, retry, delete later.
-            let disp = wide(OsStr::new("ByteBouncer sandbox"));
-            let mut p: PSID = null_mut();
-            // SAFETY: strings are NUL-terminated; p receives a SID freed below.
-            let hr = unsafe {
-                CreateAppContainerProfile(
-                    name.as_ptr(),
-                    disp.as_ptr(),
-                    disp.as_ptr(),
-                    null(),
-                    0,
-                    &mut p,
-                )
-            };
-            if hr < 0 {
-                return Err(first);
-            }
-            // SAFETY: p was allocated by CreateAppContainerProfile.
-            unsafe { FreeSid(p) };
-            registered = Some(name.clone());
-            match create_process(
-                &app,
-                &command_line(l.program, &l.args),
-                &env,
-                &cwd,
-                &sid,
-                &caps,
-                child_ends,
-            ) {
-                Ok(pi) => pi,
-                Err(e) => {
-                    // SAFETY: name is NUL-terminated.
-                    unsafe { DeleteAppContainerProfile(name.as_ptr()) };
-                    return Err(e);
-                }
-            }
+        Err(e) => {
+            // SAFETY: name is NUL-terminated.
+            unsafe { DeleteAppContainerProfile(name.as_ptr()) };
+            return Err(e);
         }
     };
     // SAFETY: CreateProcessW returned these handles; we own them.
@@ -637,10 +633,8 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         let e = last_error();
         // SAFETY: valid process handle; it never ran (still suspended).
         unsafe { TerminateProcess(process.as_raw_handle(), 1) };
-        if let Some(name) = &registered {
-            // SAFETY: name is NUL-terminated.
-            unsafe { DeleteAppContainerProfile(name.as_ptr()) };
-        }
+        // SAFETY: name is NUL-terminated.
+        unsafe { DeleteAppContainerProfile(name.as_ptr()) };
         return Err(e);
     }
     // SAFETY: valid thread handle of the suspended main thread.
@@ -648,6 +642,8 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         let e = last_error();
         // SAFETY: valid job handle.
         unsafe { TerminateJobObject(job.as_raw_handle(), 1) };
+        // SAFETY: name is NUL-terminated.
+        unsafe { DeleteAppContainerProfile(name.as_ptr()) };
         return Err(e);
     }
     drop((in_r, out_w, err_w));
@@ -659,7 +655,7 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         pid: pi.dwProcessId,
         job: Some(job),
         grants: Some(grants),
-        registered,
+        registered: Some(name),
         status: None,
     })
 }

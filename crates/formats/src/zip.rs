@@ -189,7 +189,9 @@ pub(crate) mod tests {
         let out = expand(&bytes, ContainerKind::Zip, &Limits::default()).unwrap();
         assert_eq!(out.children[0].data, b"stored");
         assert_eq!(out.child("dir/b.txt").unwrap().data, b"deflated deflated");
-        assert_eq!(out.children[0].mode, Some(0o100644));
+        // Archives built on Windows carry DOS attributes, so only check that
+        // the entry is reported as a regular file.
+        assert_eq!(out.children[0].mode.map(|m| m & 0o170000), Some(0o100000));
     }
 
     #[test]

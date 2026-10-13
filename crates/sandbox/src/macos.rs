@@ -287,17 +287,22 @@ mod tests {
         // The Tier 1 profile cannot exec anything, so let it run `true` only
         // to prove the rest of its text parses.
         let tier1 = format!(
-            "{}(allow file-read*)\n(allow process-exec)\n",
+            "{}(allow file-read*)\n(allow file-map-executable)\n(allow process-exec)\n",
             sbpl(&Profile::tier1(true))
         );
         for text in [tier1, sbpl(&tool), sbpl(&fetch)] {
-            let st = Command::new(SANDBOX_EXEC)
+            let out = Command::new(SANDBOX_EXEC)
                 .arg("-p")
                 .arg(&text)
                 .arg("/usr/bin/true")
-                .status()
+                .output()
                 .unwrap();
-            assert!(st.success(), "profile rejected:\n{text}");
+            assert!(
+                out.status.success(),
+                "profile rejected ({}): {}\n{text}",
+                out.status,
+                String::from_utf8_lossy(&out.stderr)
+            );
         }
     }
 }

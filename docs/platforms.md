@@ -107,8 +107,8 @@ Tier 1 requires `appcontainer_fs, appcontainer_net, job_limits, job_no_child`.
 How it works: an AppContainer can only be applied when a process is created,
 so the parent launches its workers confined (`spawn_worker`) instead of the
 worker confining itself. For each launch it derives a fresh AppContainer SID
-(`bytebouncer.<kind>.<pid>.<n>`; no profile is registered unless the system
-requires it, in which case it is deleted afterwards), adds ACL entries for that
+(`bytebouncer.<kind>.<pid>.<n>`, registered as a profile for the life of
+the process and deleted afterwards), adds ACL entries for that
 SID on exactly the paths the profile grants (Tier 1: its batch file and input
 snapshots; fetch: its download directory; tools: inputs, tool directories and
 scratch), creates the process suspended with `SECURITY_CAPABILITIES`, an
