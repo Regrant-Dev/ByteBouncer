@@ -100,8 +100,11 @@ pub fn sbpl(profile: &Profile) -> String {
             "(allow file-map-executable{})\n",
             path_filters(&sys)
         ));
+        // Programs read the root directory itself at start-up on macOS 26
+        // (and abort without it); `literal` grants only the listing of `/`.
         s.push_str(
-            "(allow file-read* file-write-data (literal \"/dev/null\") (literal \"/dev/zero\"))\n\
+            "(allow file-read-data (literal \"/\"))\n\
+             (allow file-read* file-write-data (literal \"/dev/null\") (literal \"/dev/zero\"))\n\
              (allow file-read* (literal \"/dev/urandom\") (literal \"/dev/random\"))\n\
              (allow signal (target same-sandbox))\n\
              (allow ipc-posix-sem)\n",

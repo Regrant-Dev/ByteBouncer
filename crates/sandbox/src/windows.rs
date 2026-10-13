@@ -395,9 +395,13 @@ fn command_line(program: &Path, args: &[&OsStr]) -> Vec<u16> {
 }
 
 /// `profile.env` plus what system DLLs need, as a sorted Unicode block.
+///
+/// CreateProcessW reads LOCALAPPDATA, TEMP and TMP from this block to point
+/// them at the AppContainer's own folder, and fails with
+/// ERROR_ENVVAR_NOT_FOUND if they are missing.
 fn env_block(env: &[(OsString, OsString)]) -> Vec<u16> {
     let mut vars: std::collections::BTreeMap<String, (OsString, OsString)> = Default::default();
-    for key in ["SystemRoot", "windir"] {
+    for key in ["SystemRoot", "windir", "LOCALAPPDATA", "TEMP", "TMP"] {
         if let Some(v) = std::env::var_os(key) {
             vars.insert(key.to_uppercase(), (key.into(), v));
         }
@@ -600,10 +604,9 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
     let cwd = wide(l.cwd.unwrap_or_else(|| default_cwd(l.profile)).as_os_str());
     let env = env_block(&l.profile.env);
 
-    // Register the AppContainer profile up front: starting a process in an
-    // unregistered container fails on current Windows (with a misleading
-    // ERROR_ENVVAR_NOT_FOUND), and registration errors are worth reporting
-    // as themselves. The profile is deleted when the child is dropped.
+    // Register the AppContainer profile up front so its folder exists for the
+    // redirected LOCALAPPDATA/TEMP (see env_block). The profile is deleted
+    // when the child is dropped.
     register_profile(&name)?;
     let pi = match create_process(
         &app,

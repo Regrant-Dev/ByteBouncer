@@ -91,7 +91,7 @@ jobs:
         run: cargo test --locked --workspace --no-fail-fast
       - name: Sandbox denials (macOS, on failure)
         if: failure() && runner.os == 'macOS'
-        run: log show --last 30m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | grep -v 'deny(1) mach-lookup com.apple.logd' | tail -150 || true
+        run: log show --last 30m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | grep -vE 'deny\(1\) mach-lookup com.apple.logd|Sandbox: (parsec|mobileassetd|proactived|remotemanagementd|dataaccessd|amsondevice|managedapp|dasd|SecuritySubscriber|promotedcontent)' | tail -300 || true
       - name: Sandbox qualification tests (verbose)
         run: cargo test --locked -p bytebouncer-sandbox -- --nocapture
 

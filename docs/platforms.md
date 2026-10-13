@@ -113,7 +113,8 @@ SID on exactly the paths the profile grants (Tier 1: its batch file and input
 snapshots; fetch: its download directory; tools: inputs, tool directories and
 scratch), creates the process suspended with `SECURITY_CAPABILITIES`, an
 explicit inherited-handle list (its three pipes only), no console, and a
-cleared environment (plus `SystemRoot`/`windir`), assigns it to the Job
+cleared environment (plus `SystemRoot`/`windir`, and `LOCALAPPDATA`/`TEMP`/`TMP`,
+which Windows redirects to the container's own folder), assigns it to the Job
 Object, and resumes it. The ACL entries are removed when the process handle is
 dropped, after the job (and so every process in it) has been terminated. The
 worker's `confine_self` then verifies the token and job limits and reports
