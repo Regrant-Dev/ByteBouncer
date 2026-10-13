@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-/// Closed severity set, ordered (SPEC §7).
+/// Closed severity set, ordered.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Severity {

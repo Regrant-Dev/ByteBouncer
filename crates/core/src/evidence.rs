@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-/// Maximum stored snippet length in bytes (SPEC §7: snippets are bounded).
+/// Maximum stored snippet length in bytes (snippets are bounded).
 pub const MAX_SNIPPET_BYTES: usize = 256;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

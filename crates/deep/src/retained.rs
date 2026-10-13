@@ -1,5 +1,5 @@
 //! Bounded deep-analysis data kept with the report, and the read-only
-//! investigation tools a model may call over it (SPEC §6.3).
+//! investigation tools a model may call over it.
 //!
 //! Everything here was derived from the untrusted sample. Tool results are
 //! labeled as such and are evidence, never instructions.

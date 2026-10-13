@@ -1,4 +1,4 @@
-//! Fetch worker (SPEC §9.2): downloads one URL into the scan workspace.
+//! Fetch worker: downloads one URL into the scan workspace.
 //!
 //! Runs as a separate confined process that may only make outbound TCP
 //! connections to ports 80/443, read system configuration needed for DNS and

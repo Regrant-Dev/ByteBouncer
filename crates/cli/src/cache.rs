@@ -1,4 +1,4 @@
-//! Stage cache (SPEC §11). Tier 1 results are keyed by the exact artifact
+//! Stage cache. Tier 1 results are keyed by the exact artifact
 //! bytes plus everything that affects analysis: analyzer version and rule
 //! digests. Display paths are not part of the key, so cached results are
 //! re-labelled for the current scan.

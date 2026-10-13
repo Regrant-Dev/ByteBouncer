@@ -1,4 +1,4 @@
-//! Tier 1 analyzers (SPEC §9.2). Everything here is pure: it takes bytes and
+//! Tier 1 analyzers. Everything here is pure: it takes bytes and
 //! returns evidence-linked findings. It must never touch the filesystem,
 //! network, or spawn processes; the sandboxed worker enforces that anyway.
 

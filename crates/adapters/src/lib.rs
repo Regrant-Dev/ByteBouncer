@@ -1,4 +1,4 @@
-//! Package-manager adapters (SPEC §3.1, §5).
+//! Package-manager adapters.
 //!
 //! Two jobs, both side-effect free:
 //!

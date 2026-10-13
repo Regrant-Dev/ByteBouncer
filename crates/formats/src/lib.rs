@@ -1,5 +1,5 @@
-//! In-memory identification and expansion of container and installer formats
-//! (SPEC §4, §5.2, §6.1). Everything here operates on `&[u8]` and returns owned
+//! In-memory identification and expansion of container and installer formats.
+//! Everything here operates on `&[u8]` and returns owned
 //! data: no filesystem, network, process, or environment access. Inputs are
 //! hostile, so every expansion is bounded by [`Limits`], paths are normalized
 //! before they are reported, links are recorded but never followed, and

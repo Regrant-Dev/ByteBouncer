@@ -1,4 +1,4 @@
-//! `bytebouncer compare OLD NEW` (SPEC §8): what changed between two scans,
+//! `bytebouncer compare OLD NEW`: what changed between two scans,
 //! e.g. an application update. Removals are only claimed when both scans
 //! completed; a missing finding after a failed scan is not a removal.
 

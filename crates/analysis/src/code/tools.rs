@@ -1,4 +1,4 @@
-//! Read-only model tools over retained [`CodeMap`]s (SPEC §6.3). Mirrors the
+//! Read-only model tools over retained [`CodeMap`]s. Mirrors the
 //! shape of `bytebouncer_deep::RetainedData`; names are prefixed `code_` so
 //! they never clash with the Ghidra-backed tools.
 //!

@@ -1,4 +1,4 @@
-//! Tier 1 sandboxed worker (SPEC §9.2).
+//! Tier 1 sandboxed worker.
 //!
 //! The parent re-executes its own binary as a hidden `__tier1-worker`
 //! subcommand with a cleared environment. The worker opens and reads the

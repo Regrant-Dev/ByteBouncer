@@ -8,7 +8,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 # Every dependency must be pure Rust: this crate parses hostile input inside the
-# Tier 1 sandbox (SPEC §9.2). No `-sys` crates that compile C.
+# Tier 1 sandbox. No `-sys` crates that compile C.
 [dependencies]
 thiserror.workspace = true
 sha2.workspace = true

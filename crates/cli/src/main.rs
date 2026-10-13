@@ -1,4 +1,4 @@
-//! ByteBouncer CLI. See SPEC.md §3.
+//! ByteBouncer CLI.
 
 mod acquire;
 mod approve;

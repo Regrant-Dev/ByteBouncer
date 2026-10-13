@@ -1,4 +1,4 @@
-//! Deep mode glue (SPEC §6.2, §9.2 Tier 2): run whichever of capa, ClamAV,
+//! Deep mode glue (Tier 2): run whichever of capa, ClamAV,
 //! and Ghidra are installed, each confined by the Tier 2 sandbox, on the
 //! input's executables. Missing tools are reported, never installed.
 

@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::finding::{Finding, Severity};
 
 /// An explicit user policy. [`Policy::default`] is the conservative built-in
-/// policy from SPEC §3.3 so that exit code 0 means something without config.
+/// policy so that exit code 0 means something without config.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Policy {
     pub name: String,

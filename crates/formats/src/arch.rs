@@ -7,7 +7,7 @@
 use crate::util::{Sink, shebang};
 use crate::{Child, ContainerKind, EntryKind, Expanded, FormatError, Limits, Script};
 
-/// Install-relevant facts about an Arch package (SPEC §5.3: scripts, hooks,
+/// Install-relevant facts about an Arch package (scripts, hooks,
 /// services).
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct ArchInfo {

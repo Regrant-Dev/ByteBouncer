@@ -1,4 +1,4 @@
-//! Approval records (SPEC §15 Phase 5). An approval says "the user reviewed
+//! Approval records. An approval says "the user reviewed
 //! report R and accepts these exact bytes". Records are keyed by SHA-256, so
 //! any change to a payload needs a new inspection and a new decision.
 

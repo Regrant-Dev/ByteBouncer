@@ -1,4 +1,4 @@
-//! Package-manager requests (SPEC §3.1, §5.3). The familiar command is parsed
+//! Package-manager requests. The familiar command is parsed
 //! by a finite grammar, never executed. Resolution goes through the sandboxed
 //! fetch worker; recipes are fetched as data and inspected like any file.
 

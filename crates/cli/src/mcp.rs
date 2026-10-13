@@ -1,4 +1,4 @@
-//! Inspection-only MCP server over stdio (SPEC §13, §15 Phase 5). Agents can
+//! Inspection-only MCP server over stdio. Agents can
 //! inspect and read reports. There is deliberately no install, approve,
 //! shell, configuration, or sandbox-policy tool, and scans always use full
 //! isolation, quick or deep mode, and no model or reputation lookups.

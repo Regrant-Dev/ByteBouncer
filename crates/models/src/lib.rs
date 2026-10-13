@@ -1,5 +1,4 @@
-//! bytebouncer-models: bring-your-own-model synthesis behind a trust broker
-//! (SPEC §6.3, §9.3, §10).
+//! bytebouncer-models: bring-your-own-model synthesis behind a trust broker.
 //!
 //! The model is treated as an **untrusted analyst**. It talks to an
 //! OpenAI-compatible endpoint chosen by the user, may only read evidence

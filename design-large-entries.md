@@ -1,73 +1,58 @@
-# Design: analyzing very large nested files
+# Large files inside archives
 
-Status: implemented (2026-10-13) for SquashFS/AppImage, zip-based and
-tar-based containers. Validated on the GitHub Copilot AppImage: the 1.4 GiB
-`usr/bin/github` is extracted in about 4 s and analyzed. The whole scan takes
-about 14 s.
+Status: done for SquashFS/AppImage, zip and tar (October 2026).
 
-## Problem
+## The problem
 
-Tier 1 expands containers entirely in memory inside the sandboxed worker.
-A nested file larger than `Limits::max_entry_bytes` (512 MiB) used to be cut
-off, and the scan was marked incomplete. Raising the limit does not help: the
-worker would hold the container, every expanded child, and analysis state at
-once, and hit its 4 GiB address-space limit.
+Quick mode unpacks archives in memory inside a locked-down worker. Anything
+bigger than 512 MiB used to be cut off, and the scan was marked incomplete.
+The GitHub Copilot AppImage hit this: its main program, `usr/bin/github`, is
+1.4 GiB, so the most important file in the package was never checked. Raising
+the limit wasn't an option, because the worker would need the whole archive,
+everything in it, and the analysis in memory at once.
 
-## How it works
+## What happens now
 
-1. **Detection (Tier 1).** While expanding a container, a regular file over
-   `max_entry_bytes` is not read. The formats crate lists it in
-   `Expanded::oversized`, and the analysis walk turns it into a
-   `SpillRequest`: the chain of containers leading to it, its path, size, and
-   display path. For zip, an entry is only spilled when its compression
-   ratio is plausible. Implausible ratios keep the bomb-style truncation, and
-   a test checks that a zip bomb is never spilled.
+1. When unpacking finds a file over the limit, it doesn't read it. It notes
+   the file's path, its size, and which archives it sits inside. Zip entries
+   are only treated this way when their compression ratio is believable.
+   Zip bombs are still cut off as before, and a test makes sure of it.
+2. A separate worker (`crates/cli/src/spill.rs`) extracts that one file. It
+   reads the input, opens its single output file, then locks itself down the
+   same way the quick-mode worker does: no network, no new files, no
+   starting programs, and a cap on how much it can write. It streams the
+   file out block by block and hashes it on the way. The big file never has
+   to fit in memory.
+3. The extracted file is scanned like any other input and shows up in the
+   report under its archive path (`outer!inner`). It can contain more large
+   files, which go through the same steps. Deep mode skips anything over
+   400 MiB, since Ghidra wouldn't finish in time, and the report says so.
+4. Limits: 16 files, 4 GiB each, 8 GiB per scan (`SPILL_MAX_*` in
+   `crates/cli/src/inspect.rs`). Going over makes the scan incomplete, with
+   the file named. Extracted files are deleted with the rest of the scan
+   workspace.
 
-2. **Extraction worker (`crates/cli/src/spill.rs`).** For each request, the
-   parent starts `__extract-worker`. It:
-   1. reads the input snapshot,
-   2. creates its single output file under `workspace/spill/`,
-   3. confines itself with the Tier 1 allow-list (no network, no new file
-      access, no exec, `RLIMIT_FSIZE` = size cap),
-   4. streams the entry into the already-open file, hashing as it writes.
+On the Copilot AppImage the 1.4 GiB program is extracted in about 4 seconds
+and the whole scan takes about 14.
 
-   Intermediate containers in the chain are expanded in memory within the
-   default limits; the large file itself never is.
-   `bytebouncer_formats::extract_entry` streams SquashFS block by block, and
-   zip and tar entry by entry.
+## Done at the same time
 
-3. **Analysis.** Each extracted file becomes an ordinary input snapshot,
-   with display path `outer!inner` and `parent` set to its container. It
-   runs through Tier 1 in its own batch and can spill further files through
-   the same queue. It is a deep-mode candidate like any other input, except
-   that deep mode skips anything over 400 MiB with an explicit coverage
-   note, because decompiling it would consume the budget without finishing.
+- The code map disassembles functions with telling names first (network,
+  identifiers, credentials, telemetry, persistence), using up to half its
+  budget, then sweeps the rest. This doesn't help much with async Rust like
+  Copilot: the URLs and the network calls end up too many calls apart to
+  pair statically. A model investigating with the code tools can still
+  follow them.
+- With `--model`, the model's write-up now comes first in the report, marked
+  as unverified, with the checked findings below it.
+- When the model repeats something ByteBouncer already found, its
+  explanation is attached to that finding instead of being filed as a
+  rejected claim.
+- Pulling UTF-16 URLs out of a file now works in fixed-size chunks, so huge
+  inputs no longer need four times their size in memory.
 
-4. **Bounds.** At most 16 files, 4 GiB per file and 8 GiB per scan
-   (`SPILL_MAX_*` in `crates/cli/src/inspect.rs`). Exceeding them makes the
-   scan `incomplete` with a message naming the file. Spill files live in the
-   scan workspace and are removed with it.
+## Still to do
 
-## Related changes made at the same time
-
-- **Code map prioritization:** named functions matching network, identifier,
-  credential, telemetry or persistence keywords are disassembled first, using
-  up to half the instruction budget; a linear sweep covers the rest.
-  Limitation: in async Rust (e.g. Copilot), URLs and send calls sit more than
-  four direct calls apart, so static pairing still misses them. The model's
-  code tools cover that ground.
-- **Report layout:** with `--model`, the AI investigation comes first in the
-  Markdown and HTML reports, labelled as unverified narrative, followed by
-  the verified findings.
-- **Duplicate AI claims:** a model claim that restates an existing finding is
-  kept as that finding's explanation instead of a rejected hypothesis.
-- **Memory:** UTF-16 URL extraction works in fixed windows, so very large
-  inputs no longer need about 4× their size in memory.
-
-## Not yet covered
-
-- Streaming extraction for other containers (RPM payloads, DEB data
-  archives, CAB, MSI streams, compressed single streams). These still report
-  "too large" as a limitation.
-- Formats where the container itself does not fit in memory (inputs over
-  about 2 GiB).
+- Streaming extraction for RPM and DEB payloads, CAB, MSI streams and plain
+  compressed files. These still report "too large".
+- Inputs that are themselves too big to read into memory (over about 2 GiB).

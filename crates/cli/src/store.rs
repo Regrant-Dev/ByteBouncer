@@ -1,4 +1,4 @@
-//! Report store and scan workspaces (SPEC §3.4, §9.4).
+//! Report store and scan workspaces.
 
 use std::fs;
 use std::io::Write;

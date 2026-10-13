@@ -1,4 +1,4 @@
-//! Deep mode (SPEC §6.1–6.2): runs analysis tools the user has already
+//! Deep mode: runs analysis tools the user has already
 //! installed (capa, ClamAV, Ghidra) inside the kernel sandbox from
 //! `bytebouncer-sandbox` and turns their output into evidence-linked findings.
 //!

@@ -1,142 +1,140 @@
 # ByteBouncer
 
-**Know what you're letting in.**
+Know what you're letting in.
 
-ByteBouncer inspects software *before* you install or run it: a download, an installer, a folder, a URL, or a package request like `yay -S foo`. It tells you what it found, how strong the evidence is, and what it could not check. It never installs or executes what it inspects.
+ByteBouncer looks inside software before you install or run it. Point it at a download, an installer, a folder, a URL, or a package request like `yay -S foo`, and it tells you what it found, how solid the evidence is, and what it couldn't check. It never installs or runs the thing it's looking at.
 
 ```console
 $ bytebouncer inspect ~/Downloads/some-app.AppImage
-$ bytebouncer inspect https://example.com/tool-1.2.tar.gz --checksums-file https://example.com/SHA256SUMS
 $ bytebouncer inspect "pacman -S firefox"
 $ bytebouncer inspect -- yay -S some-aur-package
+$ bytebouncer inspect https://example.com/tool.tar.gz --checksums-file https://example.com/SHA256SUMS
 $ bytebouncer watch ~/Downloads --notify
 ```
 
-One binary, no setup. Deep analysis and AI explanations are optional extras that use tools you may already have.
+It's a single binary and works without any setup. Deeper analysis (Ghidra through REA) and AI investigation are optional.
 
-> **Status: early development.** Linux is the qualified host platform. Windows and macOS builds exist, but their sandboxes are qualified only in CI. See [docs/platforms.md](docs/platforms.md).
+This is early software. Linux is the main platform. Windows and macOS builds exist, but their sandboxes have only been tested in CI so far; see [docs/platforms.md](docs/platforms.md).
 
-## What it checks
+## What it looks at
 
-**Quick mode (default, no prerequisites)**
-- **Unpacks almost anything, in memory:** zip, tar, gzip/xz/zstd/bzip2, `.deb`, `.rpm`, Arch packages, AppImage, MSI and CAB, MSIX, macOS `.pkg` and DMG. Nested archives are followed. Path-traversal tricks, decompression bombs and links are handled safely.
-- **Binaries:** ELF, PE and Mach-O imports and sections, packers, Authenticode signer and integrity.
-- **Install-time scripts:** Debian maintainer scripts, RPM scriptlets, `.INSTALL`, MSI custom actions, `.pkg` pre/postinstall, PowerShell, and shell. It looks for download-and-execute, persistence, security weakening, setuid, and encoded payloads.
-- **Privacy:** embedded endpoints and references to analytics and crash-reporting services.
-- **YARA-X rules:** a small bundled set (reverse shells, miners, credential-store access, Defender tampering, …) plus your own rule files.
-- **Provenance:** `--expect-sha256`, `SHA256SUMS` files, minisign and OpenPGP detached signatures, and repository digests and signatures for package requests (pacman packages are verified against the system pacman keyring).
+A normal scan (quick mode) needs nothing else installed. It:
 
-**Package requests** use familiar syntax but are *never executed*: pacman, yay/paru (AUR), apt and dnf (on hosts that have them), Homebrew, winget, Scoop, and Chocolatey. ByteBouncer resolves the exact files, downloads them through a sandboxed fetcher, checks repository digests and signatures, and inspects recipes (PKGBUILD, formulae, manifests) as data. PKGBUILDs are parsed, not sourced.
+- unpacks zip, tar, gzip/xz/zstd/bzip2, `.deb`, `.rpm`, Arch packages, AppImage, MSI/CAB, MSIX, macOS `.pkg` and DMG, including archives inside archives. Path traversal, zip bombs and symlink tricks are handled. Files too big to unpack in memory are extracted to disk by a separate sandboxed worker and checked on their own.
+- reads ELF, PE and Mach-O binaries: imports, sections, packers, and Authenticode signatures.
+- maps the code of x86/x64 binaries: which functions call network, file, registry, clipboard or identifier APIs, and which strings (URLs, paths, registry keys) they use.
+- reads install scripts (Debian maintainer scripts, RPM scriptlets, `.INSTALL`, MSI custom actions, `.pkg` scripts, PowerShell, shell) and flags things like download-and-run, persistence, disabling security tools, and encoded payloads.
+- lists embedded endpoints and spots common analytics and crash-reporting services.
+- runs a small set of bundled YARA rules (reverse shells, miners, credential theft, Defender tampering, and so on), plus any rules you add.
+- checks provenance: `--expect-sha256`, `SHA256SUMS` files, minisign and OpenPGP signatures, and for packages the repository's own checksums and signatures. Pacman packages are checked against your system's pacman keyring.
 
-**Deep mode** (`--mode deep`): built around REA (see below). It also runs whichever of [capa](https://github.com/mandiant/capa), [ClamAV](https://www.clamav.net/) and [Ghidra](https://ghidra-sre.org/) are available. It finds capabilities, signature matches, call paths, and URLs referenced by network code. Each tool runs in the Tier 2 sandbox (no network, read-only input, scratch-only writes). Use tools you already have, or let ByteBouncer fetch them into its own folder. Nothing is installed system-wide, and every download is checked against the publisher's SHA-256:
+Package requests use the commands you already know, but nothing gets installed. ByteBouncer works out which exact files the request would install, downloads them through a sandboxed fetcher, verifies them, and reads recipes (PKGBUILDs, Homebrew formulae, winget/Scoop/Chocolatey manifests) as plain data. A PKGBUILD is parsed, never sourced. Supported: pacman, yay/paru (AUR), apt and dnf (on systems that have them), Homebrew, winget, Scoop and Chocolatey.
 
-```console
-$ bytebouncer setup ghidra     # official Ghidra + Temurin JDK 21 (~800 MB), CPU specs precompiled
-$ bytebouncer setup capa       # standalone capa binary
-$ bytebouncer setup clamav     # prints package-manager instructions (needs freshclam updates)
-$ bytebouncer doctor           # shows what deep mode will use
-```
+## Deep mode and REA
 
-**REA** ([morluto/rea](https://github.com/morluto/rea)) is the preferred way to use Ghidra. It drives Ghidra over MCP: ByteBouncer opens the file in REA, records where each network destination is used along with the decompiled code, and gives your model about 25 read-only REA tools to investigate further (decompile, call paths, xrefs, strings). Every result the model fetches becomes evidence it can cite. REA's dynamic tools (Frida, ADB, UI automation) and editing tools are never exposed. There are two ways to run it:
+`--mode deep` is where the real code reading happens, and it's built around [REA](https://github.com/morluto/rea), which drives Ghidra over MCP. ByteBouncer opens each executable in REA, finds where every network destination is used, and keeps the decompiled code as evidence. If you also use a model, the model gets about 25 read-only REA tools (decompile a function, follow call paths, look up cross-references and strings) so it can dig further. Anything it looks at becomes evidence it can cite. REA's tools that run or change things (Frida, ADB, UI automation, renaming) are never given to the model.
+
+You can run REA locally:
 
 ```console
-$ bytebouncer setup ghidra && bytebouncer setup rea   # local REA (needs Node.js 22+), runs in the Tier 2 sandbox
+$ bytebouncer setup rea    # installs REA, Ghidra and a JDK into ByteBouncer's own folder (needs Node.js 22+)
 ```
 
-Or point ByteBouncer at analysis servers that run somewhere more isolated, for example a disposable offline VM. ByteBouncer starts each command as an MCP server on stdio:
+Or you can run it somewhere more isolated, like a throwaway offline VM, and point ByteBouncer at it. ByteBouncer starts the command as an MCP server and talks to it over stdio:
 
 ```toml
 [deep.rea]
-command = ["/path/to/connector", "mcp", "rea"]   # any REA MCP server
-sandbox = false              # only when the command provides its own isolation (e.g. a VM)
-staging_dir = "~/Downloads/bytebouncer-staging"   # if the connector only accepts files from certain folders
-
-[deep.scan]                  # capa + ClamAV elsewhere: tools `capa_scan {path}`, `clamav_scan {path}`
-command = ["/path/to/connector", "mcp", "scan"]
-staging_dir = "~/Downloads/bytebouncer-staging"
+command = ["/path/to/connector", "mcp", "rea"]
+sandbox = false        # only if that command provides its own isolation
+staging_dir = "~/Downloads/bytebouncer-staging"   # if it only accepts files from certain folders
 ```
 
-`[deep.scan]` servers return each tool's raw output (`capa -j` JSON, or `clamscan` output with its exit code and database version), and ByteBouncer parses it exactly as it does for local runs. Reports say which isolation was used: ByteBouncer's sandbox, or "provided by that command".
+Deep mode also uses [capa](https://github.com/mandiant/capa), [ClamAV](https://www.clamav.net/) or a plain Ghidra install if you happen to have them. None of them are required. `bytebouncer doctor` shows what it found. capa and ClamAV can also run behind an MCP server with a `[deep.scan]` section that works the same way as `[deep.rea]`. Anything ByteBouncer installs for you goes in its own folder, is checked against the publisher's SHA-256, and is never installed system-wide.
 
-**Model synthesis** (`--model NAME`, optional): bring any OpenAI-compatible endpoint (llama.cpp, vLLM, LM Studio, Ollama's OpenAI API, or a hosted provider). The model reads evidence through read-only tools and can only *add* findings that cite real evidence. Anything it can't back up is kept as an "unverified hypothesis". Hosted endpoints require `--allow-hosted-model`.
+## Asking a model
 
-## What it does *not* claim
+Add `--model NAME` to have a model investigate the evidence. Any OpenAI-compatible endpoint works: llama.cpp, vLLM, LM Studio, Ollama's OpenAI API, or a hosted provider. By default it goes through a checklist: what data the program can collect, where it stores it, what it sends and to whom, which third-party services are involved, whether there are opt-outs, and whether anything looks harmful. `--ask` adds your own question on top.
 
-- **No findings ≠ safe.** Reports say what was analyzed and what was not. Absence of findings is never a safety verdict.
-- **Capability ≠ intent.** An analytics URL or a keyboard-hook import is evidence to review, not proof of wrongdoing.
-- **Static only.** Nothing is executed, so behavior that only shows up at run time (downloaded updates, server-side configuration) is outside the report.
+The model can only add findings, and each one has to cite real evidence. ByteBouncer checks every citation and caps how strong a claim can be based on the evidence behind it. Claims that don't hold up are kept separately as unverified. The model's written summary goes at the top of the report, marked as its own narrative. Hosted endpoints need `--allow-hosted-model`, since evidence would leave your machine.
 
-| Exit code | Meaning |
+## What a report does and doesn't mean
+
+- No findings doesn't mean safe. Every report says what was analyzed and what wasn't.
+- A capability isn't intent. An analytics URL or a keyboard-hook import is something to look at, not proof of wrongdoing.
+- It's all static. Nothing is executed, so anything that only shows up at runtime (downloaded updates, server-side config) is outside the report.
+
+Exit codes:
+
+| Code | Meaning |
 |---|---|
-| 0 | Analysis completed, policy not exceeded (not proof of safety) |
-| 1 | Policy exceeded (default: a high/critical security finding or a checksum/signature mismatch) |
-| 2 | Invalid request (bad syntax, unsupported command, `sudo`, shell operators…) |
-| 3 | Analysis incomplete or input unsupported |
+| 0 | Finished, policy not exceeded (still not a safety guarantee) |
+| 1 | Policy exceeded (by default: a high or critical security finding, or a checksum/signature mismatch) |
+| 2 | Bad request: syntax error, unsupported command, `sudo`, shell operators |
+| 3 | Incomplete, or the input isn't supported |
 | 4 | Internal or isolation failure |
 | 130 | Cancelled |
 
-## How it stays safe while looking at hostile files
+## Sandboxing
 
-- **Tier 1 (all quick-mode parsing):** memory-safe Rust analyzers run in a separate worker process. On Linux the worker has an empty network namespace, Landlock denying all filesystem access, exec and TCP, a tight seccomp syscall allow-list, and resource limits. Inputs are read before confinement.
-- **Tier 2 (deep-mode tools, `gpgv`):** external tools are confined between fork and exec. They get no network, read-only access to the input, and write access only to a scratch directory. A seccomp deny-list blocks ptrace, mounts, namespaces, BPF and io_uring.
-- **Fetch worker:** downloads may only connect out on TCP 80/443 and write their own destination. The fetcher never parses what it downloads.
+Hostile files are parsed in isolation:
 
-`bytebouncer doctor` shows which restrictions are active and runs escape probes. If a restriction is unavailable, ByteBouncer refuses to analyze unless you pass `--allow-reduced-isolation`, and every report records what was missing. The trade-off is deliberate: Tier 2 is a kernel sandbox, not a VM, so it works on ordinary machines without setup.
+- All quick-mode parsing is done by memory-safe Rust code in a separate worker process. On Linux that worker has no network (empty network namespace), no file access and no ability to start programs (Landlock), a short syscall allow-list (seccomp), and resource limits. It reads its input before locking itself down.
+- Deep-mode tools like capa, ClamAV, Ghidra and `gpgv` run with no network, read-only access to the file being checked, and write access only to a scratch folder. A seccomp deny-list blocks ptrace, mounts, namespaces, BPF and io_uring.
+- Downloads go through their own worker, which can only connect out on ports 80 and 443 and only write the file it's downloading. It never parses anything.
+
+`bytebouncer doctor` shows which restrictions are active and tries a few escapes (network, reading and writing files, starting a program) to confirm they're blocked. If a restriction isn't available on your system, ByteBouncer won't analyze anything unless you pass `--allow-reduced-isolation`, and the report records what was missing. This is a kernel sandbox, not a VM. That's a deliberate trade-off so it works on a normal machine with no setup.
 
 ## Requirements
 
-| What you want | You need |
-|---|---|
-| **Quick mode**: archives, installers, packages, signatures, scripts, rules, code map | Just the `bytebouncer` binary. Full Linux isolation needs kernel 6.7+ (Landlock ABI 4) and unprivileged user namespaces. |
-| **Deep mode + AI**: what the code actually does, where data goes, decompiled evidence | **[REA](https://github.com/morluto/rea) + Ghidra.** This is the core of deep analysis. Either `bytebouncer setup rea` (installs REA, Ghidra and a JDK into ByteBouncer's folder; needs Node.js 22+), or an existing REA you run in an isolated VM (`[deep.rea]`). |
-| AI investigation | Any OpenAI-compatible model endpoint (local or hosted) |
-| Nothing else | capa and ClamAV are optional extras that deep mode uses only if they happen to be installed. For a known-malware check without installing anything, use `--lookup malwarebazaar` (sends only the file's SHA-256). |
+- Quick mode: just the binary. Full isolation on Linux needs kernel 6.7 or newer (Landlock ABI 4) and unprivileged user namespaces.
+- Deep mode: REA and Ghidra, either through `bytebouncer setup rea` or your own REA server. Without REA, deep mode falls back to a plain Ghidra install if there is one, and models still get the built-in code map.
+- AI investigation: any OpenAI-compatible endpoint.
 
-Without REA, deep mode falls back to running Ghidra directly if it is installed, and the AI still gets the built-in x86/x64 code map. REA is what lets the model navigate and decompile code itself.
+For a known-malware check without installing anything, `--lookup malwarebazaar` sends only the file's SHA-256 to MalwareBazaar.
 
 ## Install
 
 ```console
-$ cargo install --git https://github.com/Regrant-Dev/bytebouncer bytebouncer
+$ cargo install --git https://github.com/Regrant-Dev/ByteBouncer bytebouncer
 $ bytebouncer doctor
-$ bytebouncer setup rea        # recommended: enables deep mode and AI code investigation
+$ bytebouncer setup rea    # optional, for deep mode
 ```
 
-Tagged releases publish binaries with `SHA256SUMS` and build-provenance attestations on the Releases page.
+Tagged releases include prebuilt binaries, a `SHA256SUMS` file and GitHub build attestations.
 
 ## Everyday use
 
 ```console
-# Files, folders, URLs (add --open to see the report in your browser)
+# Files, folders and URLs (--open shows the report in your browser)
 bytebouncer inspect ./setup.exe --open
 bytebouncer inspect ./project --include-vendored
 bytebouncer inspect https://example.com/app.zip --expect-sha256 <hex>
 
-# Package requests (quote them, or put them after --)
+# Packages (quote the command, or put it after --)
 bytebouncer inspect "pacman -S obs-studio"
 bytebouncer inspect -- yay -S visual-studio-code-bin --include-dependencies
 bytebouncer inspect "winget install --id Microsoft.PowerToys -e"
 
+# Deep mode with a model
+bytebouncer inspect ./app --mode deep --model local
+bytebouncer inspect ./app --mode deep --model local --effort medium --ask "does this phone home?"
+
 # Reports
 bytebouncer report --list
-bytebouncer report 01JABCDE --open                 # styled HTML report in your browser
-bytebouncer compare <old-id> <new-id>      # what changed in an update
-
-# Opt-in extras
-bytebouncer inspect ./app --lookup malwarebazaar      # sends only the SHA-256
-bytebouncer inspect ./app --mode deep --model local --ask "does this phone home?"
+bytebouncer report 01JABCDE --open
+bytebouncer compare <old-id> <new-id>    # what changed between two versions
 ```
 
-Reports are saved (owner-only permissions) under `~/.local/share/bytebouncer/reports/`.
+Reports are saved with owner-only permissions in `~/.local/share/bytebouncer/reports/`.
 
 ## Configuration
 
-Optional. Create `~/.config/bytebouncer/config.toml`:
+Everything is optional. Put this in `~/.config/bytebouncer/config.toml` and keep what you need:
 
 ```toml
 default_model = "local"
 
-[policy]                       # what makes exit code 1
+[policy]                       # what makes the exit code 1
 fail_on_security = "high"      # none | info | low | medium | high | critical
 fail_on_privacy = "none"
 fail_on_provenance_mismatch = true
@@ -144,9 +142,11 @@ fail_on_provenance_mismatch = true
 [models.local]                 # any OpenAI-compatible endpoint
 base_url = "http://127.0.0.1:8080/v1"
 model = "your-model"
-# api_key_env = "MY_KEY_VAR"   # name of an env var, never the key itself
+# reasoning_effort = "medium"  # passed through as-is; valid values depend on your model
+# api_key_env = "MY_KEY_VAR"   # the name of an environment variable holding the key
+# api_key_file = "~/.config/myprovider/key"
 
-[deep]                         # only if tools aren't on PATH / standard locations
+[deep]                         # only needed if tools aren't found automatically
 # ghidra_dir = "/opt/ghidra"
 # java_home = "/usr/lib/jvm/java-21-openjdk"   # Ghidra needs a full JDK
 
@@ -166,20 +166,20 @@ directories = ["~/Downloads"]
 notify = true
 ```
 
-## Optional integrations
+## Extras
 
-- **Approvals and install handoff:** `bytebouncer approve <report>` records the exact SHA-256s you accepted. `bytebouncer install <report>` re-downloads a pacman/apt/dnf request, verifies it byte-for-byte against the approved report, and only then runs `sudo pacman -U …` (or the apt/dnf equivalent) after asking you.
-- **pacman hook:** `bytebouncer pacman-hook --print-hook` prints a PreTransaction hook that warns about (or, in `enforce` mode, blocks) packages without an approval. It runs as root but never analyzes anything; it only checks approval records. Configure it in `/etc/bytebouncer/pacman-hook.toml`:
+- `bytebouncer approve <report>` records the exact files you've accepted. `bytebouncer install <report>` downloads a pacman, apt or dnf request again, checks that every byte matches what you approved, and then hands it to your package manager, after asking you.
+- `bytebouncer pacman-hook --print-hook` prints a pacman hook that warns about packages you haven't approved, or blocks them in `enforce` mode. It runs as root but only compares checksums against your approvals; it never analyzes anything as root. Configure it in `/etc/bytebouncer/pacman-hook.toml`:
   ```toml
   mode = "warn"   # or "enforce"
   approvals_dir = "/home/you/.local/share/bytebouncer/approvals"
   ```
-- **MCP server:** `bytebouncer mcp` exposes `inspect`, `get_report`, `list_reports` and `compare_reports` to AI agents over stdio. There are no install, approve or configuration tools.
+- `bytebouncer mcp` lets AI agents use ByteBouncer over MCP. It offers `inspect`, `get_report`, `list_reports` and `compare_reports`, and nothing that installs, approves or changes settings.
 
 ## Privacy
 
-ByteBouncer has no telemetry. Inspecting a local file makes no network requests. Network use is limited to what you ask for: downloading a URL or package, fetching detached signatures and checksums next to it, opt-in hash lookups, and your configured model. Every report records which of these happened.
+ByteBouncer has no telemetry. Checking a local file doesn't touch the network. It only goes online when you ask it to: downloading a URL or package (and any signatures or checksum files next to it), hash lookups you opted into, and the model you configured. Each report lists which of these happened.
 
 ## License
 
-Licensed under either of [Apache License 2.0](LICENSE-APACHE) or [MIT](LICENSE-MIT) at your option. Bundled YARA rules are original to this project under the same terms. capa, ClamAV and Ghidra are separate programs under their own licenses and are not distributed with ByteBouncer.
+MIT or Apache 2.0, at your option ([LICENSE-MIT](LICENSE-MIT), [LICENSE-APACHE](LICENSE-APACHE)). The bundled YARA rules were written for this project and use the same license. capa, ClamAV, Ghidra and REA are separate projects under their own licenses and are not shipped with ByteBouncer.

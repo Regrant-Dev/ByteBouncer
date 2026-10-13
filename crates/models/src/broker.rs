@@ -1,6 +1,6 @@
 //! Trust broker: validates model-proposed findings against retained evidence.
 //!
-//! The broker is the security boundary for model output (SPEC §6.3, §9.3).
+//! The broker is the security boundary for model output.
 //! It never trusts claimed strength, categories, IDs, or recipients; it only
 //! *adds* findings, so a model cannot remove or downgrade existing ones.
 

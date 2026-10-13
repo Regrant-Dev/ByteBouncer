@@ -1,4 +1,4 @@
-//! Authenticode signature parsing for PE files (SPEC §5.2.1: embedded
+//! Authenticode signature parsing for PE files (embedded
 //! signatures are reported with signer identity and validity).
 //!
 //! [`inspect`] reads the PE certificate table, decodes the PKCS#7

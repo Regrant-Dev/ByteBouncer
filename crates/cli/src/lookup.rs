@@ -1,4 +1,4 @@
-//! Opt-in, hash-only reputation lookups (SPEC §10). Only the SHA-256 leaves
+//! Opt-in, hash-only reputation lookups. Only the SHA-256 leaves
 //! the machine; files are never uploaded. A hit is strong evidence; absence
 //! from a database says nothing about safety.
 

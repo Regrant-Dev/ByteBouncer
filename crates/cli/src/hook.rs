@@ -1,4 +1,4 @@
-//! pacman PreTransaction hook (SPEC §15 Phase 5). Runs as root, so it never
+//! pacman PreTransaction hook. Runs as root, so it never
 //! analyzes anything: it only checks that each package pacman is about to
 //! install has an approval record for its exact SHA-256, created earlier by
 //! the user with `bytebouncer approve`. Default mode warns; `enforce` aborts

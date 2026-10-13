@@ -1,4 +1,4 @@
-//! Acquisition (SPEC §5): turn the user's target into exact snapshot files in
+//! Acquisition: turn the user's target into exact snapshot files in
 //! the scan workspace plus an acquisition manifest. Nothing here parses the
 //! content of what it copies or downloads.
 
@@ -12,7 +12,7 @@ use sha2::{Digest, Sha256};
 
 use crate::fetch::{self, FetchRequest};
 
-/// Directory names skipped by default (SPEC §6.4); listed in coverage.
+/// Directory names skipped by default; listed in coverage.
 pub const VENDORED_DIRS: &[&str] = &[
     "node_modules",
     "vendor",

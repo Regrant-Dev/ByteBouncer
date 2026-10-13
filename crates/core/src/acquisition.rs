@@ -1,4 +1,4 @@
-//! Acquisition manifest (SPEC §5.1): what was requested, what it resolved to,
+//! Acquisition manifest: what was requested, what it resolved to,
 //! where bytes came from, and what could not be resolved safely.
 
 use serde::{Deserialize, Serialize};

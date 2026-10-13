@@ -1,4 +1,4 @@
-//! Finite parser for package requests (SPEC §3.1). Input is NEVER passed to a
+//! Finite parser for package requests. Input is NEVER passed to a
 //! shell: we accept a tiny word grammar (plain words, '…', "…" with `\"`),
 //! reject anything with shell meaning, and recognize a fixed set of
 //! operations and flags per manager. Unknown flags are errors, never dropped.

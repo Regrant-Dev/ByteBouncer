@@ -1,4 +1,4 @@
-//! Install handoff (SPEC §15 Phase 5): after the user has inspected and
+//! Install handoff: after the user has inspected and
 //! approved a package request, re-acquire the exact artifacts, verify their
 //! bytes match the approved report, and hand them to the native package
 //! manager, which applies its own signature and trust checks. Any changed

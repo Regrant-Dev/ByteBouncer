@@ -2,7 +2,7 @@
 // Source: written for ByteBouncer. License: MIT OR Apache-2.0 (same as the project).
 //
 // Every rule carries metadata the analyzer turns into a finding:
-//   category   closed category from SPEC §7 (e.g. security.downloader)
+//   category   closed category (e.g. security.downloader)
 //   severity   info | low | medium | high | critical
 //   title      one-line finding title
 //   legitimate possible legitimate purpose (optional)

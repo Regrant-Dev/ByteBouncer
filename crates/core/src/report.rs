@@ -121,7 +121,7 @@ pub struct Report {
     /// Stages served from cache, e.g. `tier1:<key>`.
     #[serde(default)]
     pub cache_hits: Vec<String>,
-    /// Model synthesis output that is NOT verified evidence (SPEC §6.3).
+    /// Model synthesis output that is NOT verified evidence.
     #[serde(default)]
     pub model_notes: ModelNotes,
 }
@@ -144,7 +144,7 @@ pub struct UnverifiedClaim {
     pub reason_rejected: String,
 }
 
-/// CLI exit codes from SPEC §3.3.
+/// CLI exit codes.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExitCode {
     Ok = 0,
@@ -166,7 +166,7 @@ impl Report {
     }
 
     /// Check that every evidence ID referenced by a finding exists and belongs
-    /// to the same artifact (SPEC §6.3).
+    /// to the same artifact.
     pub fn validate_evidence_links(&self) -> Result<(), String> {
         for f in &self.findings {
             for id in &f.evidence_ids {

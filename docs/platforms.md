@@ -1,14 +1,14 @@
-# Platforms and sandbox backends
+# Platforms and sandboxing
 
-ByteBouncer is one binary with no setup and no virtual machines. Each host OS
-confines analyzers with what its kernel offers to unprivileged processes.
-This page lists the mechanism behind every restriction name that appears in
-reports (`isolation.active` / `isolation.missing`) and in `bytebouncer doctor`,
-which hosts are qualified, and the known gaps.
+ByteBouncer doesn't use virtual machines. On each operating system it locks its
+workers down with whatever the kernel lets an ordinary (non-root) program use.
+This page explains each restriction name you'll see in `bytebouncer doctor` and
+in reports (`isolation.active` / `isolation.missing`), which systems have been
+tested, and what isn't covered.
 
-A restriction listed as **missing** means reduced isolation. Quick mode
-(Tier 1) and deep mode (Tier 2) then refuse to run unless you pass
-`--allow-reduced-isolation`, and every report says so.
+If a restriction shows up as missing, isolation is reduced. Quick mode and deep
+mode then refuse to run unless you pass `--allow-reduced-isolation`, and the
+report notes it.
 
 ## Summary
 
@@ -18,11 +18,10 @@ A restriction listed as **missing** means reduced isolation. Quick mode
 | macOS (Apple Silicon, Intel) | rlimits, Seatbelt (`sandbox_init`) | Seatbelt remote ports 80/443 | `sandbox-exec` with a generated Seatbelt profile | `macos-latest` (arm64); x86_64 under Rosetta at release |
 | Windows x86_64 | AppContainer (no capabilities) + Job Object | AppContainer `internetClient` + Job Object; **no port filtering** | AppContainer + Job Object | `windows-latest` |
 
-"Qualified" means the CI job for that OS ran the sandbox crate's tests and
-`bytebouncer doctor`, and they showed every Tier 1 restriction active and every
-escape probe blocked. The tests use positive controls (the same operation
-succeeds when it is granted) so a broken test environment cannot pass by
-accident. A backend whose CI job fails is not qualified.
+A system counts as tested when its CI job runs the sandbox tests and
+`bytebouncer doctor`, and every Tier 1 restriction is active and every escape
+attempt is blocked. Each test also checks that the same action works when it's
+allowed, so a broken test environment can't pass by accident.
 
 ## Linux
 

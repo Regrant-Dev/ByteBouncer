@@ -1,4 +1,4 @@
-//! Optional bring-your-own-model synthesis (SPEC §6.3, §10). The model reads
+//! Optional bring-your-own-model synthesis. The model reads
 //! evidence through read-only tools and may only add broker-validated
 //! findings; its narrative is stored separately as unverified notes.
 

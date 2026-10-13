@@ -1,4 +1,4 @@
-//! Provenance checks (SPEC §5.2.1): publisher checksums and detached
+//! Provenance checks: publisher checksums and detached
 //! signatures. A valid signature or matching checksum is a provenance fact,
 //! never a safety verdict; a mismatch fails the default policy.
 

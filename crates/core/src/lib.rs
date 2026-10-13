@@ -1,5 +1,5 @@
 //! Core contracts shared by every ByteBouncer stage: evidence, findings,
-//! reports, and policy. See SPEC.md §7 and §8.
+//! reports, and policy.
 
 pub mod acquisition;
 pub mod analysis;

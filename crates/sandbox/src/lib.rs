@@ -1,4 +1,4 @@
-//! Kernel-level confinement for ByteBouncer analyzers (SPEC §9.2).
+//! Kernel-level confinement for ByteBouncer analyzers.
 //!
 //! Three entry points share one [`Profile`] description:
 //!

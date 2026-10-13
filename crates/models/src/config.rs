@@ -1,4 +1,4 @@
-//! Model profile configuration and local/hosted classification (SPEC §10).
+//! Model profile configuration and local/hosted classification.
 
 use std::net::IpAddr;
 
@@ -113,7 +113,7 @@ pub fn is_hosted(cfg: &ModelConfig) -> bool {
     })
 }
 
-/// Disclosure text for hosted endpoints (SPEC §10).
+/// Disclosure text for hosted endpoints.
 pub fn hosted_disclosure(cfg: &ModelConfig) -> String {
     let host = host_of(&cfg.base_url).unwrap_or_else(|| "<unknown host>".into());
     format!(
