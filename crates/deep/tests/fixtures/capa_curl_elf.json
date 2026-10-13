@@ -1,0 +1,3552 @@
+{
+ "meta": {
+  "timestamp": "2026-10-12T20:44:25.724921",
+  "version": "9.4.0",
+  "argv": [
+   "-j",
+   "/input/sample"
+  ],
+  "sample": {
+   "md5": "3c044e729a2a01163864ae50f84f508a",
+   "sha1": "bf0aefe64820461ea49ba3ef0107b7b2eacbe399",
+   "sha256": "450474f8939a71e297282400fc83176a9532da9f8ab84524c2f2ed42e96748cc",
+   "path": "/input/sample"
+  },
+  "flavor": "static",
+  "analysis": {
+   "format": "elf",
+   "arch": "amd64",
+   "os": "linux",
+   "extractor": "VivisectFeatureExtractor",
+   "rules": [
+    "/scratch/capa/_MEIabc123/rules"
+   ],
+   "base_address": {
+    "type": "absolute",
+    "value": 33554432
+   },
+   "layout": {
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566720
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566742
+        }
+       }
+      ]
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566784
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566848
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566896
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566952
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566980
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567296
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567332
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567429
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567436
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567504
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567542
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567642
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567858
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567875
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567985
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568174
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568199
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568232
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33569152
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33571959
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33571992
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572120
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572445
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572643
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572834
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572953
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33573410
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574011
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574092
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574480
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574952
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575303
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575472
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575599
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575832
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "feature_counts": {
+    "file": 2305,
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566720
+      },
+      "count": 18
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566784
+      },
+      "count": 562
+     }
+    ]
+   },
+   "library_functions": []
+  }
+ },
+ "rules": {
+  "create or open file": {
+   "meta": {
+    "name": "create or open file",
+    "authors": [
+     "michael.hunhoff@mandiant.com",
+     "joakim@intezer.com"
+    ],
+    "scopes": {
+     "static": "instruction",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Create File"
+      ],
+      "objective": "File System",
+      "behavior": "Create File",
+      "method": "",
+      "id": "C0016"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "B5F85C26D7AA5A1FB4AF5821B6B5AB9B:0x401D7E"
+    ],
+    "description": "",
+    "lib": true,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33566859
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33566910
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33566966
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "IoCreateFileEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "write file on Linux": {
+   "meta": {
+    "name": "write file on Linux",
+    "namespace": "host-interaction/file-system/write",
+    "authors": [
+     "joakim@intezer.com",
+     "mehunhoff@google.com"
+    ],
+    "scopes": {
+     "static": "instruction",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Writes File"
+      ],
+      "objective": "File System",
+      "behavior": "Writes File",
+      "method": "",
+      "id": "C0052"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "7351f8a40c5450557b24622417fc478d:0x401E14"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33579348
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33579718
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33579843
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get password database entry on Linux": {
+   "meta": {
+    "name": "get password database entry on Linux",
+    "namespace": "host-interaction/session",
+    "authors": [
+     "michael.hunhoff@mandiant.com",
+     "jonathanlepore@google.com"
+    ],
+    "scopes": {
+     "static": "instruction",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33616899
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33616899
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33616899
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get file attributes": {
+   "meta": {
+    "name": "get file attributes",
+    "namespace": "host-interaction/file-system/meta",
+    "authors": [
+     "michael.hunhoff@mandiant.com",
+     "anushka.virgaonkar@mandiant.com"
+    ],
+    "scopes": {
+     "static": "basic block",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Get File Attributes"
+      ],
+      "objective": "File System",
+      "behavior": "Get File Attributes",
+      "method": "",
+      "id": "C0049"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "03B236B23B1EC37C663527C1F53AF3FE:0x180019824",
+     "B5F85C26D7AA5A1FB4AF5821B6B5AB9B:0x4028B6",
+     "B5F85C26D7AA5A1FB4AF5821B6B5AB9B:0x4029E0"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33613241
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33653120
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33655168
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwQueryInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtQueryDirectoryFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "truncate file on Linux": {
+   "meta": {
+    "name": "truncate file on Linux",
+    "namespace": "host-interaction/file-system/truncate",
+    "authors": [
+     "mehunhoff@google.com"
+    ],
+    "scopes": {
+     "static": "basic block",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33613296
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ftruncate"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33613298
+         }
+        ],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33660100
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ftruncate"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33660159
+         }
+        ],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "delete file on Linux": {
+   "meta": {
+    "name": "delete file on Linux",
+    "namespace": "host-interaction/file-system/delete",
+    "authors": [
+     "mehunhoff@google.com"
+    ],
+    "scopes": {
+     "static": "basic block",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Delete File"
+      ],
+      "objective": "File System",
+      "behavior": "Delete File",
+      "method": "",
+      "id": "C0047"
+     }
+    ],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33653195
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33653195
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33653195
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "set file attributes": {
+   "meta": {
+    "name": "set file attributes",
+    "namespace": "host-interaction/file-system/meta",
+    "authors": [
+     "moritz.raabe@mandiant.com",
+     "michael.hunhoff@mandiant.com",
+     "anushka.virgaonkar@mandiant.com"
+    ],
+    "scopes": {
+     "static": "basic block",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "File and Directory Permissions Modification"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "File and Directory Permissions Modification",
+      "subtechnique": "",
+      "id": "T1222"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Set File Attributes"
+      ],
+      "objective": "File System",
+      "behavior": "Set File Attributes",
+      "method": "",
+      "id": "C0050"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "946A99F36A46D335DEC080D9A4371940:0x100015f0",
+     "B5F85C26D7AA5A1FB4AF5821B6B5AB9B:0x4028B6"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33653320
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "SetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.IO.File::SetAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33653320
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "SetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.IO.File::SetAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33653320
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "SetFileAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ZwSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtSetInformationFile"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.IO.File::SetAttributes"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "contain loop": {
+   "meta": {
+    "name": "contain loop",
+    "authors": [
+     "moritz.raabe@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [
+     "08AC667C65D36D6542917655571E61C8:0x406EAA"
+    ],
+    "description": "",
+    "lib": true,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33566784
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "loop"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33566784
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "tight loop"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33568288
+         },
+         {
+          "type": "absolute",
+          "value": 33569152
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "recursive call"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33576768
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "loop"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576768
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "tight loop"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33577760
+         },
+         {
+          "type": "absolute",
+          "value": 33577824
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "recursive call"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33580624
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "loop"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33580624
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "tight loop"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "characteristic",
+          "characteristic": "recursive call"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "run PowerShell expression": {
+   "meta": {
+    "name": "run PowerShell expression",
+    "namespace": "load-code/powershell/",
+    "authors": [
+     "anamaria.martinezgom@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "span of calls"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Execution",
+       "Command and Scripting Interpreter",
+       "PowerShell"
+      ],
+      "tactic": "Execution",
+      "technique": "Command and Scripting Interpreter",
+      "subtechnique": "PowerShell",
+      "id": "T1059.001"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "Execution",
+       "Command and Scripting Interpreter"
+      ],
+      "objective": "Execution",
+      "behavior": "Command and Scripting Interpreter",
+      "method": "",
+      "id": "E1059"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "692f7fd6d198e804d6af98eb9e390d61:0x6000004"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33566784
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33583584
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33603872
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get local IPv4 addresses": {
+   "meta": {
+    "name": "get local IPv4 addresses",
+    "namespace": "host-interaction/network/address",
+    "authors": [
+     "moritz.raabe@mandiant.com",
+     "joakim@intezer.com",
+     "mehunhoff@google.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Discovery",
+       "System Network Configuration Discovery"
+      ],
+      "tactic": "Discovery",
+      "technique": "System Network Configuration Discovery",
+      "subtechnique": "",
+      "id": "T1016"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [
+     "Practical Malware Analysis Lab 05-01.dll_:0x100037e6",
+     "4C0553285D724DCAF5909924B4E3E90A:0x402010"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33576768
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "getsockname"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33577034
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "set socket configuration": {
+   "meta": {
+    "name": "set socket configuration",
+    "namespace": "communication/socket",
+    "authors": [
+     "michael.hunhoff@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "Communication",
+       "Socket Communication",
+       "Set Socket Config"
+      ],
+      "objective": "Communication",
+      "behavior": "Socket Communication",
+      "method": "Set Socket Config",
+      "id": "C0001.001"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "6A352C3E55E8AE5ED39DC1BE7FB964B1:0x1000C1F0"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33576768
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get socket information": {
+   "meta": {
+    "name": "get socket information",
+    "namespace": "communication/socket",
+    "authors": [
+     "michael.hunhoff@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Discovery",
+       "System Network Configuration Discovery"
+      ],
+      "tactic": "Discovery",
+      "technique": "System Network Configuration Discovery",
+      "subtechnique": "",
+      "id": "T1016"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33576768
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "getsockname"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33577034
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#6",
+          "description": "getsockname"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "read file on Linux": {
+   "meta": {
+    "name": "read file on Linux",
+    "namespace": "host-interaction/file-system/read",
+    "authors": [
+     "joakim@intezer.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "span of calls"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Read File"
+      ],
+      "objective": "File System",
+      "behavior": "Read File",
+      "method": "",
+      "id": "C0051"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "7351f8a40c5450557b24622417fc478d:0x4059AD"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33581456
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "optional"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33660384
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "optional"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33661568
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "optional"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "query environment variable": {
+   "meta": {
+    "name": "query environment variable",
+    "namespace": "host-interaction/environment-variable",
+    "authors": [
+     "michael.hunhoff@mandiant.com",
+     "@_re_fox"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Discovery",
+       "System Information Discovery"
+      ],
+      "tactic": "Discovery",
+      "technique": "System Information Discovery",
+      "subtechnique": "",
+      "id": "T1082"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "Discovery",
+       "System Information Discovery"
+      ],
+      "objective": "Discovery",
+      "behavior": "System Information Discovery",
+      "method": "",
+      "id": "E1082"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "Practical Malware Analysis Lab 14-02.exe_:0x401880",
+     "0761142efbda6c4b1e801223de723578:0x65483490"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33610464
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetEnvironmentVariable"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetEnvironmentStrings"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ExpandEnvironmentStrings"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "getenv"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33611230
+         }
+        ],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33673664
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetEnvironmentVariable"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "GetEnvironmentStrings"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ExpandEnvironmentStrings"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "getenv"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33683353
+         },
+         {
+          "type": "absolute",
+          "value": 33684630
+         }
+        ],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create directory": {
+   "meta": {
+    "name": "create directory",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "moritz.raabe@mandiant.com",
+     "michael.hunhoff@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [
+     {
+      "parts": [
+       "File System",
+       "Create Directory"
+      ],
+      "objective": "File System",
+      "behavior": "Create Directory",
+      "method": "",
+      "id": "C0046"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "Practical Malware Analysis Lab 17-02.dll_:0x10008f62",
+     "692f7fd6d198e804d6af98eb9e390d61:0x6000003"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33614032
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateDirectory"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateDirectoryEx"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "CreateDirectoryTransacted"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "NtCreateDirectoryObject"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get current user on Linux": {
+   "meta": {
+    "name": "get current user on Linux",
+    "namespace": "host-interaction/session",
+    "authors": [
+     "joakim@intezer.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "span of calls"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Discovery",
+       "System Owner/User Discovery"
+      ],
+      "tactic": "Discovery",
+      "technique": "System Owner/User Discovery",
+      "subtechnique": "",
+      "id": "T1033"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [
+     "7351f8a40c5450557b24622417fc478d:0x405438"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33614032
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33615072
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33616640
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "and"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "or"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "encode data using Base64": {
+   "meta": {
+    "name": "encode data using Base64",
+    "namespace": "data-manipulation/encoding/base64",
+    "authors": [
+     "moritz.raabe@mandiant.com",
+     "anushka.virgaonkar@mandiant.com",
+     "michael.hunhoff@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Obfuscated Files or Information"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "Obfuscated Files or Information",
+      "subtechnique": "",
+      "id": "T1027"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Obfuscated Files or Information",
+       "Encoding-Standard Algorithm"
+      ],
+      "objective": "Defense Evasion",
+      "behavior": "Obfuscated Files or Information",
+      "method": "Encoding-Standard Algorithm",
+      "id": "E1027.m02"
+     },
+     {
+      "parts": [
+       "Data",
+       "Encode Data",
+       "Base64"
+      ],
+      "objective": "Data",
+      "behavior": "Encode Data",
+      "method": "Base64",
+      "id": "C0026.001"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "BFB9B5391A13D0AFD787E87AB90F14F5:0x1314889C",
+     "074072B261FC27B65C72671F13510C05:0x100049B2",
+     "5DB2D2BE20D59AA0BE6709A6850F1775:0x18001CC30",
+     "08AC667C65D36D6542917655571E61C8:0x406EAA"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33617072
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::ToBase64String"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::ToBase64CharArray"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::TryToBase64Chars"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33640992
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::ToBase64String"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::ToBase64CharArray"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "System.Convert::TryToBase64Chars"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": true,
+        "node": {
+         "type": "statement",
+         "statement": {
+          "type": "and"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "get socket status": {
+   "meta": {
+    "name": "get socket status",
+    "namespace": "communication/socket",
+    "authors": [
+     "michael.hunhoff@mandiant.com"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Discovery",
+       "System Network Configuration Discovery"
+      ],
+      "tactic": "Discovery",
+      "technique": "System Network Configuration Discovery",
+      "subtechnique": "",
+      "id": "T1016"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "Communication",
+       "Socket Communication",
+       "Get Socket Status"
+      ],
+      "objective": "Communication",
+      "behavior": "Socket Communication",
+      "method": "Get Socket Status",
+      "id": "C0001.012"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "6A352C3E55E8AE5ED39DC1BE7FB964B1:0x1000C1F0"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 33697888
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "select"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33698107
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#18",
+          "description": "select"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 33698048
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "select"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33698107
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#18",
+          "description": "select"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "reference Base64 string": {
+   "meta": {
+    "name": "reference Base64 string",
+    "namespace": "data-manipulation/encoding/base64",
+    "authors": [
+     "moritz.raabe@mandiant.com"
+    ],
+    "scopes": {
+     "static": "file",
+     "dynamic": "file"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Obfuscated Files or Information"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "Obfuscated Files or Information",
+      "subtechnique": "",
+      "id": "T1027"
+     }
+    ],
+    "mbc": [
+     {
+      "parts": [
+       "Data",
+       "Encode Data",
+       "Base64"
+      ],
+      "objective": "Data",
+      "behavior": "Encode Data",
+      "method": "Base64",
+      "id": "C0026.001"
+     },
+     {
+      "parts": [
+       "Data",
+       "Check String"
+      ],
+      "objective": "Data",
+      "behavior": "Check String",
+      "method": "",
+      "id": "C0019"
+     }
+    ],
+    "references": [],
+    "examples": [
+     "B766CC43D649D30E9F27AFF8F7EE7DE0",
+     "BFB9B5391A13D0AFD787E87AB90F14F5",
+     "074072B261FC27B65C72671F13510C05",
+     "5DB2D2BE20D59AA0BE6709A6850F1775"
+    ],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "no address"
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "regex",
+          "regex": "/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\\+\\//",
+          "description": "standard Base64 alphabet"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "file",
+          "value": 188704
+         }
+        ],
+        "captures": {
+         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/": [
+          {
+           "type": "file",
+           "value": 188704
+          }
+         ]
+        }
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "regex",
+          "regex": "/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_/",
+          "description": "URL-safe Base64 alphabet"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  }
+ }
+}

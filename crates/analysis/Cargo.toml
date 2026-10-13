@@ -1,0 +1,21 @@
+[package]
+name = "bytebouncer-analysis"
+description = "Tier 1 (memory-safe, in-sandbox) analyzers for ByteBouncer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+bytebouncer-core.workspace = true
+bytebouncer-formats.workspace = true
+sha2.workspace = true
+base64 = "0.22"
+serde.workspace = true
+goblin = "0.10"
+regex = "1"
+memchr = "2"
+serde_json.workspace = true
+iced-x86 = { version = "1.21", default-features = false, features = ["std", "decoder", "instr_info", "intel"] }
+yara-x = { version = "1.21", default-features = false, features = ["constant-folding", "exact-atoms", "fast-regexp", "pe-module", "elf-module", "macho-module", "dotnet-module", "hash-module", "math-module", "string-module"] }

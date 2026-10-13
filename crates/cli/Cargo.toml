@@ -1,0 +1,41 @@
+[package]
+name = "bytebouncer"
+description = "Know what you're letting in: inspect software before you install or run it"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "bytebouncer"
+path = "src/main.rs"
+
+[dependencies]
+bytebouncer-core.workspace = true
+bytebouncer-analysis.workspace = true
+bytebouncer-sandbox.workspace = true
+bytebouncer-models.workspace = true
+bytebouncer-adapters.workspace = true
+bytebouncer-deep.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+anyhow.workspace = true
+clap = { version = "4", features = ["derive"] }
+ulid = "1"
+jiff = "0.2"
+directories = "6"
+ctrlc = "3"
+zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
+tar = { version = "0.4", default-features = false }
+flate2 = "1"
+toml = "0.9"
+notify = "8"
+minisign-verify = "0.2"
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+

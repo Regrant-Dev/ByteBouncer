@@ -1,0 +1,5045 @@
+{
+ "meta": {
+  "timestamp": "2026-10-12T20:44:25.724921",
+  "version": "9.4.0",
+  "argv": [
+   "-j",
+   "/input/sample"
+  ],
+  "sample": {
+   "md5": "3c044e729a2a01163864ae50f84f508a",
+   "sha1": "bf0aefe64820461ea49ba3ef0107b7b2eacbe399",
+   "sha256": "450474f8939a71e297282400fc83176a9532da9f8ab84524c2f2ed42e96748cc",
+   "path": "/input/sample"
+  },
+  "flavor": "static",
+  "analysis": {
+   "format": "pe",
+   "arch": "amd64",
+   "os": "windows",
+   "extractor": "VivisectFeatureExtractor",
+   "rules": [
+    "/scratch/capa/_MEIabc123/rules"
+   ],
+   "base_address": {
+    "type": "absolute",
+    "value": 33554432
+   },
+   "layout": {
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566720
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566742
+        }
+       }
+      ]
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566784
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566848
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566896
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566952
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33566980
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567296
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567332
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567429
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567436
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567504
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567542
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567642
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567858
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567875
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33567985
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568174
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568199
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33568232
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33569152
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33571959
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33571992
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572120
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572445
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572643
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572834
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33572953
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33573410
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574011
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574092
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574480
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33574952
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575303
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575472
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575599
+        }
+       },
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33575832
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "feature_counts": {
+    "file": 2305,
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566720
+      },
+      "count": 18
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33566784
+      },
+      "count": 562
+     }
+    ]
+   },
+   "library_functions": []
+  }
+ },
+ "rules": {
+  "log keystrokes via polling": {
+   "meta": {
+    "name": "log keystrokes via polling",
+    "namespace": "collection/keylog",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Collection",
+       "Input Capture"
+      ],
+      "tactic": "Collection",
+      "technique": "Input Capture",
+      "subtechnique": "",
+      "id": "T1056.001"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ],
+    [
+     {
+      "type": "absolute",
+      "value": 4198912
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "capture screenshot": {
+   "meta": {
+    "name": "capture screenshot",
+    "namespace": "collection/screenshot",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Collection",
+       "Screen Capture"
+      ],
+      "tactic": "Collection",
+      "technique": "Screen Capture",
+      "subtechnique": "",
+      "id": "T1113"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "persist via Run registry key": {
+   "meta": {
+    "name": "persist via Run registry key",
+    "namespace": "persistence/registry/run",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Persistence",
+       "Boot or Logon Autostart Execution"
+      ],
+      "tactic": "Persistence",
+      "technique": "Boot or Logon Autostart Execution",
+      "subtechnique": "",
+      "id": "T1547.001"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "check for debugger via API": {
+   "meta": {
+    "name": "check for debugger via API",
+    "namespace": "anti-analysis/anti-debugging/debugger-detection",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Debugger Evasion"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "Debugger Evasion",
+      "subtechnique": "",
+      "id": "T1622"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "packed with UPX": {
+   "meta": {
+    "name": "packed with UPX",
+    "namespace": "anti-analysis/packer/upx",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Obfuscated Files or Information"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "Obfuscated Files or Information",
+      "subtechnique": "",
+      "id": "T1027.002"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": []
+  },
+  "inject thread": {
+   "meta": {
+    "name": "inject thread",
+    "namespace": "host-interaction/process/inject",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Defense Evasion",
+       "Process Injection"
+      ],
+      "tactic": "Defense Evasion",
+      "technique": "Process Injection",
+      "subtechnique": "",
+      "id": "T1055"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "download URL to file": {
+   "meta": {
+    "name": "download URL to file",
+    "namespace": "communication/http/client",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "send HTTP request": {
+   "meta": {
+    "name": "send HTTP request",
+    "namespace": "communication/http/client",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "encrypt data using AES": {
+   "meta": {
+    "name": "encrypt data using AES",
+    "namespace": "data-manipulation/encryption/aes",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "contain obfuscated stackstrings": {
+   "meta": {
+    "name": "contain obfuscated stackstrings",
+    "namespace": "anti-analysis/obfuscation/string/stackstring",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "linked against ZLIB": {
+   "meta": {
+    "name": "linked against ZLIB",
+    "namespace": "linking/static/zlib",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "parse PE header": {
+   "meta": {
+    "name": "parse PE header",
+    "namespace": "load-code/pe",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": true,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "steal browser credentials": {
+   "meta": {
+    "name": "steal browser credentials",
+    "namespace": "collection/browser",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [
+     {
+      "parts": [
+       "Credential Access",
+       "Credentials from Web Browsers"
+      ],
+      "tactic": "Credential Access",
+      "technique": "Credentials from Web Browsers",
+      "subtechnique": "",
+      "id": "T1555.003"
+     }
+    ],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4198400
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 0": {
+   "meta": {
+    "name": "create file variant 0",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202496
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 1": {
+   "meta": {
+    "name": "create file variant 1",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202512
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 2": {
+   "meta": {
+    "name": "create file variant 2",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202528
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 3": {
+   "meta": {
+    "name": "create file variant 3",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202544
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 4": {
+   "meta": {
+    "name": "create file variant 4",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202560
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 5": {
+   "meta": {
+    "name": "create file variant 5",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202576
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 6": {
+   "meta": {
+    "name": "create file variant 6",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202592
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 7": {
+   "meta": {
+    "name": "create file variant 7",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202608
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 8": {
+   "meta": {
+    "name": "create file variant 8",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202624
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 9": {
+   "meta": {
+    "name": "create file variant 9",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202640
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 10": {
+   "meta": {
+    "name": "create file variant 10",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202656
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 11": {
+   "meta": {
+    "name": "create file variant 11",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202672
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 12": {
+   "meta": {
+    "name": "create file variant 12",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202688
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 13": {
+   "meta": {
+    "name": "create file variant 13",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202704
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 14": {
+   "meta": {
+    "name": "create file variant 14",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202720
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 15": {
+   "meta": {
+    "name": "create file variant 15",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202736
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 16": {
+   "meta": {
+    "name": "create file variant 16",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202752
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 17": {
+   "meta": {
+    "name": "create file variant 17",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202768
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 18": {
+   "meta": {
+    "name": "create file variant 18",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202784
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 19": {
+   "meta": {
+    "name": "create file variant 19",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202800
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 20": {
+   "meta": {
+    "name": "create file variant 20",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202816
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 21": {
+   "meta": {
+    "name": "create file variant 21",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202832
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 22": {
+   "meta": {
+    "name": "create file variant 22",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202848
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 23": {
+   "meta": {
+    "name": "create file variant 23",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202864
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 24": {
+   "meta": {
+    "name": "create file variant 24",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202880
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 25": {
+   "meta": {
+    "name": "create file variant 25",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202896
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 26": {
+   "meta": {
+    "name": "create file variant 26",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202912
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 27": {
+   "meta": {
+    "name": "create file variant 27",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202928
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 28": {
+   "meta": {
+    "name": "create file variant 28",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202944
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  },
+  "create file variant 29": {
+   "meta": {
+    "name": "create file variant 29",
+    "namespace": "host-interaction/file-system/create",
+    "authors": [
+     "fixture"
+    ],
+    "scopes": {
+     "static": "function",
+     "dynamic": "call"
+    },
+    "attack": [],
+    "mbc": [],
+    "references": [],
+    "examples": [],
+    "description": "",
+    "lib": false,
+    "is_subscope_rule": false,
+    "maec": {}
+   },
+   "matches": [
+    [
+     {
+      "type": "absolute",
+      "value": 4202960
+     },
+     {
+      "success": true,
+      "node": {
+       "type": "statement",
+       "statement": {
+        "type": "or"
+       }
+      },
+      "children": [
+       {
+        "success": true,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [
+         {
+          "type": "absolute",
+          "value": 33576896
+         },
+         {
+          "type": "absolute",
+          "value": 33577129
+         },
+         {
+          "type": "absolute",
+          "value": 33577285
+         }
+        ],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#21",
+          "description": "setsockopt"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       },
+       {
+        "success": false,
+        "node": {
+         "type": "feature",
+         "feature": {
+          "type": "api",
+          "api": "ws2_32.#10",
+          "description": "ioctlsocket"
+         }
+        },
+        "children": [],
+        "locations": [],
+        "captures": {}
+       }
+      ],
+      "locations": [],
+      "captures": {}
+     }
+    ]
+   ]
+  }
+ }
+}

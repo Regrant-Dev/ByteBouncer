@@ -1,0 +1,117 @@
+[
+ {
+  "name": ".validation",
+  "type": "file",
+  "path": "manifests/7/7zip/7zip/.validation"
+ },
+ {
+  "name": "16.04",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/16.04"
+ },
+ {
+  "name": "18.01",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/18.01"
+ },
+ {
+  "name": "18.05",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/18.05"
+ },
+ {
+  "name": "18.06",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/18.06"
+ },
+ {
+  "name": "19.00",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/19.00"
+ },
+ {
+  "name": "21.06",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/21.06"
+ },
+ {
+  "name": "21.07",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/21.07"
+ },
+ {
+  "name": "22.00",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/22.00"
+ },
+ {
+  "name": "22.01",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/22.01"
+ },
+ {
+  "name": "23.01",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/23.01"
+ },
+ {
+  "name": "24.05",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/24.05"
+ },
+ {
+  "name": "24.06",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/24.06"
+ },
+ {
+  "name": "24.07",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/24.07"
+ },
+ {
+  "name": "24.08",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/24.08"
+ },
+ {
+  "name": "24.09",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/24.09"
+ },
+ {
+  "name": "25.00",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/25.00"
+ },
+ {
+  "name": "25.01",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/25.01"
+ },
+ {
+  "name": "26.00",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/26.00"
+ },
+ {
+  "name": "26.01",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/26.01"
+ },
+ {
+  "name": "26.02",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/26.02"
+ },
+ {
+  "name": "26.03",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/26.03"
+ },
+ {
+  "name": "26.04",
+  "type": "dir",
+  "path": "manifests/7/7zip/7zip/26.04"
+ }
+]

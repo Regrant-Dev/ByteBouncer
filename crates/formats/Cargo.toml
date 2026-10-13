@@ -1,0 +1,35 @@
+[package]
+name = "bytebouncer-formats"
+description = "Memory-safe, in-memory container and installer format expansion for ByteBouncer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+# Every dependency must be pure Rust: this crate parses hostile input inside the
+# Tier 1 sandbox (SPEC §9.2). No `-sys` crates that compile C.
+[dependencies]
+thiserror.workspace = true
+sha2.workspace = true
+hex.workspace = true
+flate2 = "1"
+ruzstd = "0.9"
+lzma-rust2 = "0.21"
+bzip2 = "0.6"
+tar = { version = "0.4", default-features = false }
+zip = { version = "9", default-features = false, features = ["deflate-flate2", "deflate64", "bzip2", "lzma", "xz"] }
+cfb = "0.15"
+lzxd = "0.2"
+lz4_flex = { version = "0.11", default-features = false, features = ["std", "safe-decode", "safe-encode", "checked-decode"] }
+roxmltree = "0.21"
+memchr = "2"
+base64 = "0.22"
+sha1 = "0.10"
+cms = "0.2"
+x509-cert = "0.2"
+der = "0.7"
+
+[dev-dependencies]
+cab = "0.6"
+zip = { version = "9", default-features = false, features = ["deflate-flate2"] }

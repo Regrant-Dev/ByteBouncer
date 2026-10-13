@@ -1,0 +1,31 @@
+[package]
+name = "bytebouncer-adapters"
+description = "Package request parsing and side-effect-free package resolution for ByteBouncer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+bytebouncer-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+hex.workspace = true
+sha2.workspace = true
+# Real bash grammar for static PKGBUILD reading (never evaluated). 0.2.20 is
+# the newest release compatible with the workspace MSRV (1.85).
+brush-parser = "0.2.20"
+yaml-rust2 = "0.13"
+roxmltree = "0.21"
+ruzstd = "0.9"
+flate2 = "1"
+tar = { version = "0.4", default-features = false }
+base64 = "0.22"
+
+[dev-dependencies]
+ureq = "3"
+tar = "0.4"
+flate2 = "1"
+ruzstd = "0.9"

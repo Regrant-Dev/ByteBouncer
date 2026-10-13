@@ -1,0 +1,83 @@
+{
+ "meta": {
+  "timestamp": "2026-10-12T20:44:10.833698",
+  "version": "9.4.0",
+  "argv": [
+   "-j",
+   "/input/sample"
+  ],
+  "sample": {
+   "md5": "0766650093b6c325a19e186e1ec08ea7",
+   "sha1": "75e56683630cf5a5a5006ae34bcf3e0bf65ee745",
+   "sha256": "63277ce54c258cf3730295ae71ab2e8871474ed1ac5e93f1899adccb4790d02b",
+   "path": "/input/sample"
+  },
+  "flavor": "static",
+  "analysis": {
+   "format": "elf",
+   "arch": "amd64",
+   "os": "linux",
+   "extractor": "VivisectFeatureExtractor",
+   "rules": [
+    "/scratch/capa/_MEIabc123/rules"
+   ],
+   "base_address": {
+    "type": "absolute",
+    "value": 33554432
+   },
+   "layout": {
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33558528
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33558550
+        }
+       }
+      ]
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33558880
+      },
+      "matched_basic_blocks": [
+       {
+        "address": {
+         "type": "absolute",
+         "value": 33558880
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "feature_counts": {
+    "file": 185,
+    "functions": [
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33558528
+      },
+      "count": 18
+     },
+     {
+      "address": {
+       "type": "absolute",
+       "value": 33558560
+      },
+      "count": 10
+     }
+    ]
+   },
+   "library_functions": []
+  }
+ },
+ "rules": {}
+}

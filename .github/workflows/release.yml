@@ -1,0 +1,174 @@
+name: Release
+
+# Builds release archives for every advertised host, qualifies each native
+# build with `bytebouncer doctor`, writes SHA256SUMS, attests build
+# provenance, optionally signs SHA256SUMS with minisign, and publishes a
+# GitHub release. See docs/platforms.md ("Releases").
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: build (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Static musl binaries run on any Linux distribution. Built natively
+          # on each architecture so `doctor` can qualify the exact binary.
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+            qualify: true
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-24.04-arm
+            qualify: true
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            qualify: true
+          # Cross-compiled on the Apple Silicon runner; qualified under
+          # Rosetta 2 when the runner has it.
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            qualify: rosetta
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            qualify: true
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install musl tools
+        if: contains(matrix.target, 'musl')
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+      - name: Build
+        env:
+          CC_x86_64_unknown_linux_musl: musl-gcc
+          CC_aarch64_unknown_linux_musl: musl-gcc
+          # Static CRT: no Visual C++ redistributable needed on Windows.
+          CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_RUSTFLAGS: -C target-feature=+crt-static
+          MACOSX_DEPLOYMENT_TARGET: "11.0"
+        run: cargo build --locked --release -p bytebouncer --target ${{ matrix.target }}
+
+      - name: Qualify sandbox (doctor)
+        run: |
+          bin=target/${{ matrix.target }}/release/bytebouncer
+          [ -f "$bin.exe" ] && bin="$bin.exe"
+          run=("$bin")
+          if [ "${{ matrix.qualify }}" = rosetta ]; then
+            if ! arch -x86_64 /usr/bin/true 2>/dev/null; then
+              echo "::warning::Rosetta 2 unavailable; ${{ matrix.target }} not qualified on this runner"
+              exit 0
+            fi
+            run=(arch -x86_64 "$bin")
+          fi
+          if [ "$RUNNER_OS" = Linux ] && sysctl -n kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          code=0
+          out="$("${run[@]}" doctor 2>&1)" || code=$?
+          echo "$out"
+          if [ "$code" -ne 0 ] || grep -qE 'MISSING|ALLOWED|worker crashed|did not finish' <<<"$out"; then
+            echo "::error::sandbox not qualified for ${{ matrix.target }}"
+            exit 1
+          fi
+
+      - name: Package
+        id: package
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          name="bytebouncer-${version}-${{ matrix.target }}"
+          mkdir -p "dist/$name"
+          bin=target/${{ matrix.target }}/release/bytebouncer
+          if [ -f "$bin.exe" ]; then cp "$bin.exe" "dist/$name/"; else cp "$bin" "dist/$name/"; fi
+          cp README.md LICENSE-MIT LICENSE-APACHE "dist/$name/"
+          [ -f docs/platforms.md ] && cp docs/platforms.md "dist/$name/"
+          cd dist
+          if [ "$RUNNER_OS" = Windows ]; then
+            7z a -tzip "$name.zip" "$name" >/dev/null
+            echo "file=dist/$name.zip" >> "$GITHUB_OUTPUT"
+          else
+            tar -czf "$name.tar.gz" "$name"
+            echo "file=dist/$name.tar.gz" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ steps.package.outputs.file }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the release
+      id-token: write # OIDC token for the provenance attestation
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Checksums
+        working-directory: dist
+        run: |
+          sha256sum -- *.tar.gz *.zip > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.zip
+
+      # Optional: set the repository secret MINISIGN_SECRET_KEY (contents of
+      # a minisign secret key file, ideally created with `minisign -G -W`,
+      # i.e. without a password; otherwise also set MINISIGN_PASSWORD) to
+      # publish SHA256SUMS.minisig. Skipped when the secret is absent.
+      - name: Sign SHA256SUMS (minisign)
+        env:
+          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
+          MINISIGN_PASSWORD: ${{ secrets.MINISIGN_PASSWORD }}
+          MINISIGN_PUBLIC_KEY: ${{ vars.MINISIGN_PUBLIC_KEY }}
+        if: env.MINISIGN_SECRET_KEY != ''
+        working-directory: dist
+        run: |
+          sudo apt-get update && sudo apt-get install -y minisign
+          umask 077
+          key="$RUNNER_TEMP/minisign.key"
+          printf '%s\n' "$MINISIGN_SECRET_KEY" > "$key"
+          printf '%s\n' "$MINISIGN_PASSWORD" | minisign -S -s "$key" -m SHA256SUMS \
+            -t "bytebouncer ${GITHUB_REF_NAME} SHA256SUMS"
+          rm -f "$key"
+          # Self-check against the published key when the repository
+          # variable MINISIGN_PUBLIC_KEY (the base64 key line) is set.
+          if [ -n "$MINISIGN_PUBLIC_KEY" ]; then
+            minisign -V -P "$MINISIGN_PUBLIC_KEY" -m SHA256SUMS
+          fi
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "ByteBouncer ${GITHUB_REF_NAME}" \
+            --generate-notes \
+            $([[ "$GITHUB_REF_NAME" == *-* ]] && echo --prerelease)

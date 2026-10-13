@@ -1,0 +1,133 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "1"
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all --check
+
+  # Lint, test and qualify the sandbox backend on each host OS. The sandbox
+  # crate's tests (tool_*, fetch_profile_*, tier1_worker_*) and `doctor`'s
+  # escape probes are the qualification: they assert that the OS really
+  # blocks file, network and exec escapes, with positive controls.
+  test:
+    name: test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --locked -p bytebouncer
+
+      # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor
+      # (kernel.apparmor_restrict_unprivileged_userns=1), which removes the
+      # Tier 1 `netns` layer. Record what a stock Ubuntu host gets, then lift
+      # the restriction so CI qualifies the full Linux mechanism. See
+      # docs/platforms.md ("Ubuntu 24.04 and user namespaces").
+      - name: Host report (Linux, stock settings; informational)
+        if: runner.os == 'Linux'
+        run: |
+          cat /sys/kernel/security/lsm || true; echo
+          sysctl kernel.apparmor_restrict_unprivileged_userns kernel.unprivileged_userns_clone 2>/dev/null || true
+          ./target/debug/bytebouncer doctor || true
+      - name: Allow unprivileged user namespaces (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          if sysctl -n kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+
+      - name: Clippy
+        run: cargo clippy --locked --workspace --all-targets -- -D warnings
+      - name: Test
+        run: cargo test --locked --workspace
+      - name: Sandbox qualification tests (verbose)
+        run: cargo test --locked -p bytebouncer-sandbox -- --nocapture
+
+      - name: doctor (must report every restriction and block every escape)
+        run: |
+          code=0
+          out="$(./target/debug/bytebouncer doctor 2>&1)" || code=$?
+          echo "$out"
+          if [ "$code" -ne 0 ] || grep -qE 'MISSING|ALLOWED|worker crashed|did not finish' <<<"$out"; then
+            echo "::error::Tier 1 sandbox is not fully qualified on ${{ runner.os }} (doctor exit $code)"
+            exit 1
+          fi
+
+      - name: Smoke test (inspect a real binary in the sandbox)
+        run: |
+          exe=./target/debug/bytebouncer
+          [ -f "$exe.exe" ] && exe="$exe.exe"
+          cp "$exe" "$RUNNER_TEMP/sample-binary"
+          code=0
+          ./target/debug/bytebouncer inspect --output "$RUNNER_TEMP/report.json" "$RUNNER_TEMP/sample-binary" >/dev/null || code=$?
+          echo "inspect exit code: $code"
+          py=python3; [ "$RUNNER_OS" = Windows ] && py=python
+          "$py" - "$RUNNER_TEMP/report.json" <<'EOF'
+          import json, sys
+          r = json.load(open(sys.argv[1]))
+          iso = r["isolation"]
+          print("result_state:", r["result_state"])
+          print("isolation:", iso)
+          assert r["result_state"] in ("findings_detected", "no_findings_detected"), r["result_state"]
+          assert not iso["reduced"] and not iso["missing"], iso
+          EOF
+
+  # Release binaries for Linux are static musl builds; qualify that libc too
+  # (its syscall usage differs from glibc's, which matters for seccomp).
+  linux-musl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - name: Build
+        env:
+          CC_x86_64_unknown_linux_musl: musl-gcc
+        run: cargo build --locked -p bytebouncer --target x86_64-unknown-linux-musl
+      - name: doctor (musl)
+        run: |
+          if sysctl -n kernel.apparmor_restrict_unprivileged_userns >/dev/null 2>&1; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          code=0
+          out="$(./target/x86_64-unknown-linux-musl/debug/bytebouncer doctor 2>&1)" || code=$?
+          echo "$out"
+          if [ "$code" -ne 0 ] || grep -qE 'MISSING|ALLOWED|worker crashed|did not finish' <<<"$out"; then
+            echo "::error::musl build is not fully qualified"
+            exit 1
+          fi

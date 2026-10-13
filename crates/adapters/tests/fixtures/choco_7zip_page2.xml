@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<feed xml:base="https://community.chocolatey.org/api/v2/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">FindPackagesById</title>
+  <id>https://community.chocolatey.org/api/v2/FindPackagesById</id>
+  <updated>2026-10-13T03:17:21Z</updated>
+  <link rel="self" title="FindPackagesById" href="FindPackagesById" />
+  <entry>
+    <id>https://community.chocolatey.org/api/v2/Packages(Id='7zip',Version='27.0.0-beta')</id>
+    <title type="text">7zip</title>
+    <updated>2025-09-19T05:34:57Z</updated>
+    <author>
+      <name>Igor Pavlov</name>
+    </author>
+    <link rel="edit-media" title="V2FeedPackage" href="Packages(Id='7zip',Version='27.0.0-beta')/$value" />
+    <link rel="edit" title="V2FeedPackage" href="Packages(Id='7zip',Version='27.0.0-beta')" />
+    <category term="CCR.Website.V2FeedPackage" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/zip" src="https://community.chocolatey.org/api/v2/package/7zip/27.0.0-beta" />
+    <m:properties xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices">
+      <d:Version>27.0.0-beta</d:Version>
+      <d:Title>7-Zip</d:Title>
+      <d:Created m:type="Edm.DateTime">2024-02-02T12:08:08.103</d:Created>
+      <d:Dependencies>7zip.install:[27.0.0-beta]:</d:Dependencies>
+      <d:DownloadCount m:type="Edm.Int32">24779330</d:DownloadCount>
+      <d:VersionDownloadCount m:type="Edm.Int32">357</d:VersionDownloadCount>
+      <d:GalleryDetailsUrl>https://community.chocolatey.org/packages/7zip/27.0.0-beta</d:GalleryDetailsUrl>
+      <d:ReportAbuseUrl>https://community.chocolatey.org/package/ReportAbuse/7zip/27.0.0-beta</d:ReportAbuseUrl>
+      <d:IconUrl>https://cdn.jsdelivr.net/gh/chocolatey-community/chocolatey-packages@68b91a851cee97e55c748521aa6da6211dd37c98/icons/7zip.svg</d:IconUrl>
+      <d:IsLatestVersion m:type="Edm.Boolean">false</d:IsLatestVersion>
+      <d:IsAbsoluteLatestVersion m:type="Edm.Boolean">false</d:IsAbsoluteLatestVersion>
+      <d:IsPrerelease m:type="Edm.Boolean">true</d:IsPrerelease>
+      <d:Language></d:Language>
+      <d:Published m:type="Edm.DateTime">2024-02-02T12:08:08.103</d:Published>
+      <d:LicenseUrl>http://www.7-zip.org/license.txt</d:LicenseUrl>
+      <d:RequireLicenseAcceptance m:type="Edm.Boolean">false</d:RequireLicenseAcceptance>
+      <d:PackageHash>0y5gKDg0+fFlfymlQJ+EBMGSqhIO8ZjyYPJUUxtAiMXI0gswALAmBhnleYpSW9/RdfdDh+8O8T+7boy3VzgtqQ==</d:PackageHash>
+      <d:PackageHashAlgorithm>SHA512</d:PackageHashAlgorithm>
+      <d:PackageSize m:type="Edm.Int64">3620</d:PackageSize>
+      <d:ProjectUrl>http://www.7-zip.org/</d:ProjectUrl>
+      <d:ProjectSourceUrl></d:ProjectSourceUrl>
+      <d:PackageSourceUrl>https://github.com/chocolatey-community/chocolatey-packages/tree/master/automatic/7zip</d:PackageSourceUrl>
+      <d:DocsUrl>http://www.7-zip.org/faq.html</d:DocsUrl>
+      <d:MailingListUrl>https://sourceforge.net/p/sevenzip/discussion/45797/</d:MailingListUrl>
+      <d:BugTrackerUrl>https://sourceforge.net/p/sevenzip/_list/tickets?source=navbar</d:BugTrackerUrl>
+      <d:IsApproved m:type="Edm.Boolean">false</d:IsApproved>
+      <d:PackageStatus>Exempted</d:PackageStatus>
+      <d:PackageSubmittedStatus>Pending</d:PackageSubmittedStatus>
+      <d:PackageTestResultUrl>https://gist.github.com/choco-bot/8dbe37e68fa4772fe592981b7ca289fb</d:PackageTestResultUrl>
+      <d:PackageTestResultStatus>Failing</d:PackageTestResultStatus>
+      <d:PackageTestResultStatusDate m:type="Edm.DateTime">2024-02-02T12:56:31.357</d:PackageTestResultStatusDate>
+      <d:PackageValidationResultStatus>Passing</d:PackageValidationResultStatus>
+      <d:PackageValidationResultDate m:type="Edm.DateTime">2024-02-02T12:44:23.513</d:PackageValidationResultDate>
+      <d:PackageCleanupResultDate m:type="Edm.DateTime" m:null="true"></d:PackageCleanupResultDate>
+      <d:PackageReviewedDate m:type="Edm.DateTime" m:null="true"></d:PackageReviewedDate>
+      <d:PackageApprovedDate m:type="Edm.DateTime" m:null="true"></d:PackageApprovedDate>
+      <d:PackageReviewer></d:PackageReviewer>
+      <d:IsDownloadCacheAvailable m:type="Edm.Boolean">false</d:IsDownloadCacheAvailable>
+      <d:DownloadCacheStatus>Unknown</d:DownloadCacheStatus>
+      <d:DownloadCacheDate m:type="Edm.DateTime" m:null="true"></d:DownloadCacheDate>
+      <d:DownloadCache></d:DownloadCache>
+      <d:PackageScanStatus>NotFlagged</d:PackageScanStatus>
+      <d:PackageScanResultDate m:type="Edm.DateTime">2024-02-02T21:16:08.3</d:PackageScanResultDate>
+      <d:PackageScanFlagResult>None</d:PackageScanFlagResult>
+    </m:properties>
+  </entry>
+<entry>
+    <id>https://community.chocolatey.org/api/v2/Packages(Id='7zip',Version='16.01')</id>
+    <title type="text">7zip</title>
+    <updated>2025-09-18T23:34:56Z</updated>
+    <author>
+      <name>Igor Pavlov</name>
+    </author>
+    <link rel="edit-media" title="V2FeedPackage" href="Packages(Id='7zip',Version='16.01')/$value" />
+    <link rel="edit" title="V2FeedPackage" href="Packages(Id='7zip',Version='16.01')" />
+    <category term="CCR.Website.V2FeedPackage" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/zip" src="https://community.chocolatey.org/api/v2/package/7zip/16.01" />
+    <m:properties xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices">
+      <d:Version>16.01</d:Version>
+      <d:Title>7-Zip</d:Title>
+      <d:Created m:type="Edm.DateTime">2016-05-19T16:16:14.977</d:Created>
+      <d:Dependencies>7zip.install:[16.01]:</d:Dependencies>
+      <d:DownloadCount m:type="Edm.Int32">24779330</d:DownloadCount>
+      <d:VersionDownloadCount m:type="Edm.Int32">777</d:VersionDownloadCount>
+      <d:GalleryDetailsUrl>https://community.chocolatey.org/packages/7zip/16.01</d:GalleryDetailsUrl>
+      <d:ReportAbuseUrl>https://community.chocolatey.org/package/ReportAbuse/7zip/16.01</d:ReportAbuseUrl>
+      <d:IconUrl>https://cdn.rawgit.com/ferventcoder/chocolatey-packages/02c21bebe5abb495a56747cbb9b4b5415c933fc0/icons/7zip.svg</d:IconUrl>
+      <d:IsLatestVersion m:type="Edm.Boolean">false</d:IsLatestVersion>
+      <d:IsAbsoluteLatestVersion m:type="Edm.Boolean">false</d:IsAbsoluteLatestVersion>
+      <d:IsPrerelease m:type="Edm.Boolean">false</d:IsPrerelease>
+      <d:Language></d:Language>
+      <d:Published m:type="Edm.DateTime">2016-05-19T16:16:14.977</d:Published>
+      <d:LicenseUrl>http://www.7-zip.org/license.txt</d:LicenseUrl>
+      <d:RequireLicenseAcceptance m:type="Edm.Boolean">false</d:RequireLicenseAcceptance>
+      <d:PackageHash>410ZJOrZ3EccGfunUpY8JSKFd/s05VqOHXXLtFu6y2lyMM3DS8zO2NNUxCR8xYbG7NVQuqqqBqBoZ4XrJl6Owg==</d:PackageHash>
+      <d:PackageHashAlgorithm>SHA512</d:PackageHashAlgorithm>
+      <d:PackageSize m:type="Edm.Int64">3057</d:PackageSize>
+      <d:ProjectUrl>http://www.7-zip.org/</d:ProjectUrl>
+      <d:ProjectSourceUrl></d:ProjectSourceUrl>
+      <d:PackageSourceUrl></d:PackageSourceUrl>
+      <d:DocsUrl></d:DocsUrl>
+      <d:MailingListUrl></d:MailingListUrl>
+      <d:BugTrackerUrl></d:BugTrackerUrl>
+      <d:IsApproved m:type="Edm.Boolean">true</d:IsApproved>
+      <d:PackageStatus>Approved</d:PackageStatus>
+      <d:PackageSubmittedStatus>Pending</d:PackageSubmittedStatus>
+      <d:PackageTestResultUrl>https://gist.github.com/14d820ee3fae69814182003043af444f</d:PackageTestResultUrl>
+      <d:PackageTestResultStatus>Failing</d:PackageTestResultStatus>
+      <d:PackageTestResultStatusDate m:type="Edm.DateTime">2016-05-19T16:59:20.817</d:PackageTestResultStatusDate>
+      <d:PackageValidationResultStatus>Passing</d:PackageValidationResultStatus>
+      <d:PackageValidationResultDate m:type="Edm.DateTime">2016-05-19T16:48:05.68</d:PackageValidationResultDate>
+      <d:PackageCleanupResultDate m:type="Edm.DateTime" m:null="true"></d:PackageCleanupResultDate>
+      <d:PackageReviewedDate m:type="Edm.DateTime">2016-05-19T16:59:20.977</d:PackageReviewedDate>
+      <d:PackageApprovedDate m:type="Edm.DateTime">2016-05-19T16:59:20.977</d:PackageApprovedDate>
+      <d:PackageReviewer></d:PackageReviewer>
+      <d:IsDownloadCacheAvailable m:type="Edm.Boolean">false</d:IsDownloadCacheAvailable>
+      <d:DownloadCacheStatus>Unknown</d:DownloadCacheStatus>
+      <d:DownloadCacheDate m:type="Edm.DateTime" m:null="true"></d:DownloadCacheDate>
+      <d:DownloadCache></d:DownloadCache>
+      <d:PackageScanStatus>NotFlagged</d:PackageScanStatus>
+      <d:PackageScanResultDate m:type="Edm.DateTime">2016-05-19T17:16:21.073</d:PackageScanResultDate>
+      <d:PackageScanFlagResult>Unknown</d:PackageScanFlagResult>
+    </m:properties>
+  </entry>
+</feed>
