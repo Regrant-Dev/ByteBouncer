@@ -195,10 +195,13 @@ pub fn run(spec: RunSpec<'_>, cancel: &AtomicBool) -> Result<RunOutput, RunError
 mod tests {
     use super::*;
 
+    #[cfg(unix)]
     fn scratch(name: &str) -> bytebouncer_sandbox::testutil::TempDir {
         bytebouncer_sandbox::testutil::temp_dir("bb-deep-runner", name)
     }
 
+    // These run /bin/sh.
+    #[cfg(unix)]
     fn sh(script: &str, timeout: Duration, cap: usize, cancel: &AtomicBool) -> RunOutput {
         let dir = scratch(&format!("{}", script.len()));
         run(
@@ -218,6 +221,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn captures_output_with_cap() {
         let out = sh(
             "yes hello | head -c 100000; echo err >&2",
@@ -237,6 +241,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn timeout_kills_process_group() {
         let t = Instant::now();
         // The grandchild `sleep` would keep stdout open if only sh were killed.
@@ -256,6 +261,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(unix)]
     fn cancellation_stops_tool() {
         let cancel = AtomicBool::new(true);
         let out = sh("sleep 30", Duration::from_secs(60), 1000, &cancel);
