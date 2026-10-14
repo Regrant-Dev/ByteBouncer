@@ -78,6 +78,12 @@ use windows_sys::Win32::System::Threading::{
 
 use crate::{Applied, Limits, Network, Profile, SpawnError};
 
+/// Temporary CI diagnostic: launch settings to turn off, from
+/// BYTEBOUNCER_SANDBOX_VARIANT (comma-separated).
+fn variant(name: &str) -> bool {
+    std::env::var("BYTEBOUNCER_SANDBOX_VARIANT").is_ok_and(|v| v.split(',').any(|x| x == name))
+}
+
 /// Launch/cleanup tracing on stderr, enabled by BYTEBOUNCER_SANDBOX_TRACE
 /// (used by CI to locate hangs).
 fn trace(what: std::fmt::Arguments<'_>) {
@@ -656,7 +662,9 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         )
     };
     // SAFETY: valid job and process handles.
-    if unsafe { AssignProcessToJobObject(job.as_raw_handle(), process.as_raw_handle()) } == 0 {
+    if !variant("nojob")
+        && unsafe { AssignProcessToJobObject(job.as_raw_handle(), process.as_raw_handle()) } == 0
+    {
         let e = last_error();
         // SAFETY: valid process handle; it never ran (still suspended).
         unsafe { TerminateProcess(process.as_raw_handle(), 1) };
@@ -742,15 +750,16 @@ fn create_process(
     };
     // SAFETY: sc and stdio outlive CreateProcessW below (the list stores pointers).
     unsafe {
-        if UpdateProcThreadAttribute(
-            list,
-            0,
-            PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES as usize,
-            &sc as *const _ as *const c_void,
-            size_of::<SECURITY_CAPABILITIES>(),
-            null_mut(),
-            null(),
-        ) == 0
+        if !variant("nocaps")
+            && UpdateProcThreadAttribute(
+                list,
+                0,
+                PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES as usize,
+                &sc as *const _ as *const c_void,
+                size_of::<SECURITY_CAPABILITIES>(),
+                null_mut(),
+                null(),
+            ) == 0
         {
             return Err(last_error());
         }
@@ -797,7 +806,11 @@ fn create_process(
             EXTENDED_STARTUPINFO_PRESENT
                 | CREATE_UNICODE_ENVIRONMENT
                 | CREATE_SUSPENDED
-                | DETACHED_PROCESS,
+                | if variant("nodetach") {
+                    0x0800_0000 // CREATE_NO_WINDOW
+                } else {
+                    DETACHED_PROCESS
+                },
             env.as_ptr() as *const c_void,
             cwd.as_ptr(),
             &si.StartupInfo,
