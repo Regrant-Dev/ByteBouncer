@@ -115,6 +115,10 @@ impl Drop for ProbeDir {
 pub fn run_worker(req: &WorkerRequest, cancel: &Arc<AtomicBool>) -> Result<WorkerResult> {
     let exe = std::env::current_exe().context("locating own executable")?;
     let mut profile = bytebouncer_sandbox::Profile::tier1(req.probe);
+    // The worker is single-threaded, so its CPU time never exceeds the wall
+    // clock: tie the CPU limit (a backstop should the parent die) to the
+    // scan's budget instead of a fixed value that slow hosts can hit first.
+    profile.limits.cpu_seconds = Some(req.timeout.as_secs().saturating_add(30));
     // Probes target a fresh user-owned directory holding a secret file;
     // the worker gets no access to it.
     let probe_dir = if req.probe {
@@ -195,8 +199,19 @@ pub fn run_worker(req: &WorkerRequest, cancel: &Arc<AtomicBool>) -> Result<Worke
         eprintln!("bytebouncer: worker output read ({} bytes)", out.len());
     }
     if !status.success() {
+        #[cfg(unix)]
+        let hint = {
+            use std::os::unix::process::ExitStatusExt;
+            match status.signal() {
+                Some(libc::SIGXCPU) => " (CPU time limit reached)",
+                Some(libc::SIGKILL) => " (killed; possibly out of memory)",
+                _ => "",
+            }
+        };
+        #[cfg(not(unix))]
+        let hint = "";
         return Ok(WorkerResult::Crashed(format!(
-            "worker exited with {status}: {}",
+            "worker exited with {status}{hint}: {}",
             err.trim()
         )));
     }
