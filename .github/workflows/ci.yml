@@ -106,6 +106,9 @@ jobs:
           iso = r["isolation"]
           print("result_state:", r["result_state"])
           print("isolation:", iso)
+          if r["result_state"] not in ("findings_detected", "no_findings_detected"):
+              print("coverage:", json.dumps(r.get("coverage"), indent=1))
+              print("budget:", r.get("budget"), "cleanup_ok:", r.get("cleanup_ok"))
           assert r["result_state"] in ("findings_detected", "no_findings_detected"), r["result_state"]
           assert not iso["reduced"] and not iso["missing"], iso
           EOF
