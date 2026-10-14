@@ -34,8 +34,8 @@ use std::sync::Mutex;
 use std::sync::atomic::{AtomicU32, Ordering};
 
 use windows_sys::Win32::Foundation::{
-    ERROR_SUCCESS, HANDLE, HANDLE_FLAG_INHERIT, LocalFree, SetHandleInformation, WAIT_OBJECT_0,
-    WAIT_TIMEOUT,
+    ERROR_SUCCESS, GENERIC_READ, GENERIC_WRITE, HANDLE, HANDLE_FLAG_INHERIT, INVALID_HANDLE_VALUE,
+    LocalFree, SetHandleInformation, WAIT_OBJECT_0, WAIT_TIMEOUT,
 };
 use windows_sys::Win32::Security::Authorization::{
     ConvertStringSidToSidW, EXPLICIT_ACCESS_W, GRANT_ACCESS, GetNamedSecurityInfoW,
@@ -52,7 +52,9 @@ use windows_sys::Win32::Security::{
     TokenIsAppContainer,
 };
 use windows_sys::Win32::Storage::FileSystem::{
-    DELETE, FILE_DELETE_CHILD, FILE_GENERIC_EXECUTE, FILE_GENERIC_READ, FILE_GENERIC_WRITE,
+    CreateFileW, DELETE, FILE_DELETE_CHILD, FILE_FLAG_FIRST_PIPE_INSTANCE, FILE_FLAG_OVERLAPPED,
+    FILE_GENERIC_EXECUTE, FILE_GENERIC_READ, FILE_GENERIC_WRITE, FILE_SHARE_NONE, OPEN_EXISTING,
+    PIPE_ACCESS_INBOUND, PIPE_ACCESS_OUTBOUND,
 };
 use windows_sys::Win32::System::JobObjects::{
     AssignProcessToJobObject, CreateJobObjectW, JOB_OBJECT_LIMIT_ACTIVE_PROCESS,
@@ -65,7 +67,9 @@ use windows_sys::Win32::System::JobObjects::{
     JobObjectBasicUIRestrictions, JobObjectExtendedLimitInformation, QueryInformationJobObject,
     SetInformationJobObject, TerminateJobObject,
 };
-use windows_sys::Win32::System::Pipes::CreatePipe;
+use windows_sys::Win32::System::Pipes::{
+    CreateNamedPipeW, PIPE_READMODE_BYTE, PIPE_REJECT_REMOTE_CLIENTS, PIPE_TYPE_BYTE, PIPE_WAIT,
+};
 use windows_sys::Win32::System::Threading::{
     CREATE_SUSPENDED, CREATE_UNICODE_ENVIRONMENT, CreateProcessW, DETACHED_PROCESS,
     DeleteProcThreadAttributeList, EXTENDED_STARTUPINFO_PRESENT, GetCurrentProcess,
@@ -77,12 +81,6 @@ use windows_sys::Win32::System::Threading::{
 };
 
 use crate::{Applied, Limits, Network, Profile, SpawnError};
-
-/// Temporary CI diagnostic: launch settings to turn off, from
-/// BYTEBOUNCER_SANDBOX_VARIANT (comma-separated).
-fn variant(name: &str) -> bool {
-    std::env::var("BYTEBOUNCER_SANDBOX_VARIANT").is_ok_and(|v| v.split(',').any(|x| x == name))
-}
 
 /// Launch/cleanup tracing on stderr, enabled by BYTEBOUNCER_SANDBOX_TRACE
 /// (used by CI to locate hangs).
@@ -353,19 +351,68 @@ fn create_job(limits: &Limits, single_process: bool) -> io::Result<OwnedHandle> 
 }
 
 /// Anonymous pipe; both ends start non-inheritable.
-fn pipe() -> io::Result<(OwnedHandle, OwnedHandle)> {
-    let (mut r, mut w): (HANDLE, HANDLE) = (null_mut(), null_mut());
-    // SAFETY: out-pointers are valid; default (non-inheritable) security.
-    if unsafe { CreatePipe(&mut r, &mut w, null(), 0) } == 0 {
+static PIPE_COUNTER: AtomicU32 = AtomicU32::new(0);
+
+/// A pipe as `(parent end, child end)`, built the way the standard library
+/// builds child pipes: the parent end is an overlapped named-pipe server and
+/// the child end a plain synchronous handle. The parent ends become
+/// `ChildStdin`/`ChildStdout`/`ChildStderr`, whose reads and writes use
+/// overlapped I/O; reading a `CreatePipe` handle through them hung at
+/// end-of-file.
+fn pipe(parent_reads: bool) -> io::Result<(OwnedHandle, OwnedHandle)> {
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |d| d.subsec_nanos());
+    let name = wide(OsStr::new(&format!(
+        r"\\.\pipe\bytebouncer.{}.{}.{nanos}",
+        std::process::id(),
+        PIPE_COUNTER.fetch_add(1, Ordering::Relaxed)
+    )));
+    let access = if parent_reads {
+        PIPE_ACCESS_INBOUND
+    } else {
+        PIPE_ACCESS_OUTBOUND
+    };
+    // SAFETY: name is NUL-terminated; default (non-inheritable) security.
+    let server = unsafe {
+        CreateNamedPipeW(
+            name.as_ptr(),
+            access | FILE_FLAG_FIRST_PIPE_INSTANCE | FILE_FLAG_OVERLAPPED,
+            PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT | PIPE_REJECT_REMOTE_CLIENTS,
+            1,
+            4096,
+            4096,
+            0,
+            null(),
+        )
+    };
+    if server == INVALID_HANDLE_VALUE {
         return Err(last_error());
     }
-    // SAFETY: both handles were just created and are owned here.
-    Ok(unsafe {
-        (
-            OwnedHandle::from_raw_handle(r),
-            OwnedHandle::from_raw_handle(w),
+    // SAFETY: server was just created and is owned here.
+    let server = unsafe { OwnedHandle::from_raw_handle(server) };
+    let client_access = if parent_reads {
+        GENERIC_WRITE
+    } else {
+        GENERIC_READ
+    };
+    // SAFETY: name is NUL-terminated; opens the single instance created above.
+    let client = unsafe {
+        CreateFileW(
+            name.as_ptr(),
+            client_access,
+            FILE_SHARE_NONE,
+            null(),
+            OPEN_EXISTING,
+            0,
+            null_mut(),
         )
-    })
+    };
+    if client == INVALID_HANDLE_VALUE {
+        return Err(last_error());
+    }
+    // SAFETY: client was just opened and is owned here.
+    Ok((server, unsafe { OwnedHandle::from_raw_handle(client) }))
 }
 
 /// Append one argument using the MSVC runtime's quoting rules.
@@ -616,9 +663,9 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         grants.paths.len()
     ));
 
-    let (in_r, in_w) = pipe()?;
-    let (out_r, out_w) = pipe()?;
-    let (err_r, err_w) = pipe()?;
+    let (in_w, in_r) = pipe(false)?;
+    let (out_r, out_w) = pipe(true)?;
+    let (err_r, err_w) = pipe(true)?;
     let child_ends = [
         in_r.as_raw_handle(),
         out_w.as_raw_handle(),
@@ -662,9 +709,7 @@ fn launch(l: Launch<'_>) -> io::Result<Child> {
         )
     };
     // SAFETY: valid job and process handles.
-    if !variant("nojob")
-        && unsafe { AssignProcessToJobObject(job.as_raw_handle(), process.as_raw_handle()) } == 0
-    {
+    if unsafe { AssignProcessToJobObject(job.as_raw_handle(), process.as_raw_handle()) } == 0 {
         let e = last_error();
         // SAFETY: valid process handle; it never ran (still suspended).
         unsafe { TerminateProcess(process.as_raw_handle(), 1) };
@@ -750,16 +795,15 @@ fn create_process(
     };
     // SAFETY: sc and stdio outlive CreateProcessW below (the list stores pointers).
     unsafe {
-        if !variant("nocaps")
-            && UpdateProcThreadAttribute(
-                list,
-                0,
-                PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES as usize,
-                &sc as *const _ as *const c_void,
-                size_of::<SECURITY_CAPABILITIES>(),
-                null_mut(),
-                null(),
-            ) == 0
+        if UpdateProcThreadAttribute(
+            list,
+            0,
+            PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES as usize,
+            &sc as *const _ as *const c_void,
+            size_of::<SECURITY_CAPABILITIES>(),
+            null_mut(),
+            null(),
+        ) == 0
         {
             return Err(last_error());
         }
@@ -806,11 +850,7 @@ fn create_process(
             EXTENDED_STARTUPINFO_PRESENT
                 | CREATE_UNICODE_ENVIRONMENT
                 | CREATE_SUSPENDED
-                | if variant("nodetach") {
-                    0x0800_0000 // CREATE_NO_WINDOW
-                } else {
-                    DETACHED_PROCESS
-                },
+                | DETACHED_PROCESS,
             env.as_ptr() as *const c_void,
             cwd.as_ptr(),
             &si.StartupInfo,

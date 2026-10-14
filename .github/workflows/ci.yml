@@ -86,21 +86,14 @@ jobs:
           sleep 2
           log show --last 2m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | tail -60 || true
 
-      # Diagnostic: worker launches with tracing, under a hard time limit, with
-      # one launch setting turned off at a time, to find what keeps the
-      # worker's output pipe open after it exits.
+      # Diagnostic: one traced worker launch under a hard time limit, so a hang
+      # shows where it stops (BYTEBOUNCER_SANDBOX_TRACE).
       - name: Worker launch trace (Windows, informational)
         if: runner.os == 'Windows'
         continue-on-error: true
         env:
           BYTEBOUNCER_SANDBOX_TRACE: "1"
-        run: |
-          for v in none nocaps nojob nodetach nojob,nodetach; do
-            echo "=== variant $v"
-            code=0; BYTEBOUNCER_SANDBOX_VARIANT=$v timeout 60 ./target/debug/bytebouncer doctor > "$RUNNER_TEMP/doctor.txt" 2>&1 || code=$?
-            grep -E 'bytebouncer|MISSING|ALLOWED|active|crash' "$RUNNER_TEMP/doctor.txt" | head -20
-            echo "=== variant $v: exit $code"
-          done
+        run: timeout 60 ./target/debug/bytebouncer doctor
 
       - name: Clippy
         run: cargo clippy --locked --workspace --all-targets -- -D warnings
