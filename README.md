@@ -168,6 +168,7 @@ notify = true
 
 ## Extras
 
+- `bytebouncer guard -- pacman -Syu` downloads the transaction and dependencies, scans the exact files, and waits for you to continue, request deep/REA analysis, read the report, or cancel. The shared flow supports pacman, yay/paru/makepkg, apt/apt-get, and DNF 4/5 on Linux. To guard ordinary commands in your current bash or zsh session, run `eval "$(bytebouncer integration --shell bash)"` (use `zsh` for zsh). This also catches plain `sudo pacman …` and `sudo apt …`; no background service is needed. See [installation guard](docs/install-guard.md) for coverage, configuration and limitations.
 - `bytebouncer approve <report>` records the exact files you've accepted. `bytebouncer install <report>` downloads a pacman, apt or dnf request again, checks that every byte matches what you approved, and then hands it to your package manager, after asking you.
 - `bytebouncer pacman-hook --print-hook` prints a pacman hook that warns about packages you haven't approved, or blocks them in `enforce` mode. It runs as root but only compares checksums against your approvals; it never analyzes anything as root. Configure it in `/etc/bytebouncer/pacman-hook.toml`:
   ```toml

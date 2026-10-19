@@ -28,6 +28,17 @@ pub struct Config {
     pub rules: RulesConfig,
     #[serde(default)]
     pub keys: KeysConfig,
+    #[serde(default)]
+    pub guard: GuardConfig,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GuardConfig {
+    /// Initial scan: `quick` (default) or `deep`.
+    pub mode: Option<String>,
+    /// Optional model profile for guarded scans, including REA investigation.
+    pub model: Option<String>,
 }
 
 #[derive(Debug, Default, Deserialize)]

@@ -7,10 +7,12 @@ mod compare;
 mod config;
 mod deep;
 mod fetch;
+mod guard;
 mod hook;
 mod html;
 mod inspect;
 mod install;
+mod integration;
 mod lookup;
 mod mcp;
 mod packages;
@@ -34,8 +36,9 @@ use clap::{Parser, Subcommand, ValueEnum};
     name = "bytebouncer",
     version,
     about = "Know what you're letting in.",
-    long_about = "Inspect software before installing or running it. ByteBouncer never installs \
-        or executes what it inspects.\n\n\
+    long_about = "Inspect software before installing or running it. Inspection never installs \
+        or executes the input. The guard and install commands can hand approved packages \
+        to your native package manager.\n\n\
         Exit code 0 means the requested analysis completed and no policy threshold \
         was exceeded. It is NOT proof that the software is safe."
 )]
@@ -49,6 +52,10 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Download packages, scan the exact files, and wait before installing (Linux)
+    Guard(guard::Args),
+    /// Print shell functions that automatically guard package-manager commands
+    Integration(integration::Args),
     /// Inspect a file, directory, URL, or package request without installing or running it
     Inspect(Box<InspectArgs>),
     /// Show, list, or prune saved reports
@@ -284,6 +291,9 @@ fn main() -> ProcessExit {
     let cli = Cli::parse();
     let code = match run(cli) {
         Ok(code) => code,
+        Err(e) if e.downcast_ref::<guard::NativeExit>().is_some() => {
+            return ProcessExit::from(e.downcast_ref::<guard::NativeExit>().unwrap().0);
+        }
         Err(e) => {
             eprintln!("error: {e:#}");
             ExitCode::InternalFailure
@@ -301,6 +311,8 @@ fn run(cli: Cli) -> anyhow::Result<ExitCode> {
         }
     };
     match cli.command {
+        Command::Guard(args) => guard::run(&args, &config, cli.config.as_deref()),
+        Command::Integration(args) => integration::run(&args, cli.config.as_deref()),
         Command::Inspect(args) => inspect::run(&args.finish(), &config),
         Command::Report {
             id,
