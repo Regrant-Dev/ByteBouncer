@@ -16,7 +16,7 @@ use crate::tools::{
 };
 
 /// Version of the prompts and submission schema; part of model cache keys.
-pub const PROMPT_VERSION: &str = "bytebouncer-synthesis/2";
+pub const PROMPT_VERSION: &str = "bytebouncer-synthesis/3";
 
 const PROVIDER: &str = "openai-compatible";
 const MAX_TOOL_RESULT_BYTES: usize = 8_000;
@@ -373,8 +373,11 @@ sending. Distinguish a referenced domain, code that can reach a send call, and p
 whether collection appears enabled by default (say unknown when unknown).\n\
 6. Harmful behavior: persistence, downloading and executing code, disabling security tools, credential theft, \
 injection, evasion.\n\
-Write the summary as short sections for 1-6, stating what is established, what is only possible, and what \
-remains unknown. Propose findings only for points the evidence supports.";
+Begin the summary with exactly 'TL;DR: ' and one plain-language sentence of at most 35 words describing \
+the main behavior or concern and any important uncertainty. Do not claim the software is safe. Then use \
+separate numbered paragraphs for 1-6, with at most two short sentences per section, stating what is \
+established, what is only possible, and what remains unknown. Keep finding titles under 100 characters; \
+put supporting detail in the explanation. Propose findings only for points the evidence supports.";
 
 fn user_intro(input: &SynthesisInput, digest_text: &str) -> String {
     let mut s = String::from(

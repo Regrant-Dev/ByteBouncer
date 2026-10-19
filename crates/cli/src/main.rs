@@ -15,6 +15,7 @@ mod install;
 mod integration;
 mod lookup;
 mod mcp;
+mod overview;
 mod packages;
 mod provenance;
 mod render;

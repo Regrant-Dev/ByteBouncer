@@ -59,6 +59,8 @@ The model can only add findings, and each one has to cite real evidence. ByteBou
 
 ## What a report does and doesn't mean
 
+Reports start with a TL;DR, severity counts (Critical, High, Medium, Low and Info), and the key findings. Expand a finding to see its evidence, or open the full AI investigation. Incomplete coverage stays visible alongside severity. Terminal scans show the short overview; `bytebouncer report <id>` shows the full details.
+
 - No findings doesn't mean safe. Every report says what was analyzed and what wasn't.
 - A capability isn't intent. An analytics URL or a keyboard-hook import is something to look at, not proof of wrongdoing.
 - It's all static. Nothing is executed, so anything that only shows up at runtime (downloaded updates, server-side config) is outside the report.

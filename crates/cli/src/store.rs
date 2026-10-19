@@ -80,10 +80,8 @@ pub fn save(report: &Report) -> Result<PathBuf> {
 /// Open a saved report's HTML page in the desktop's default browser.
 pub fn open_html(scan_id: &str) -> Result<()> {
     let path = reports_dir()?.join(scan_id).join("report.html");
-    if !path.exists() {
-        let report = load(scan_id)?;
-        write_private_file(&path, crate::html::render(&report).as_bytes())?;
-    }
+    let report = load(scan_id)?;
+    write_private_file(&path, crate::html::render(&report).as_bytes())?;
     let opener = if cfg!(target_os = "macos") {
         "open"
     } else if cfg!(windows) {

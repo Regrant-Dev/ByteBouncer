@@ -126,7 +126,7 @@ fn emit(ctx: &ScanContext, report: Report) -> Result<ExitCode> {
             .with_context(|| format!("writing {}", path.display()))?;
     }
     match ctx.args.format {
-        OutputFormat::Text => print!("{}", render::markdown(&report)),
+        OutputFormat::Text => print!("{}", render::brief(&report, !ctx.args.no_save)),
         OutputFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
         OutputFormat::Html => print!("{}", crate::html::render(&report)),
     }

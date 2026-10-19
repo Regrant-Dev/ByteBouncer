@@ -2,12 +2,108 @@
 
 use std::fmt::Write;
 
+use crate::overview::{self, LEVELS, Overview};
 use bytebouncer_core::{Finding, Report, ResultState};
+
+/// Default terminal output: the decision-relevant overview, not all evidence.
+pub fn brief(r: &Report, saved: bool) -> String {
+    let mut s = format!(
+        "# ByteBouncer — {}\n\n",
+        overview::compact(
+            r.artifacts
+                .first()
+                .map(|a| a.path.as_str())
+                .unwrap_or("report"),
+            160
+        )
+    );
+    summary(&mut s, r);
+    if saved {
+        let _ = writeln!(s, "Full report: `bytebouncer report {}`\n", r.scan_id);
+    }
+    s
+}
+
+fn summary(s: &mut String, r: &Report) {
+    let overview = Overview::new(r);
+    let _ = writeln!(s, "## TL;DR\n\n**{}**\n", overview.headline());
+    let _ = writeln!(
+        s,
+        "Highest finding: **{}**{} · Analysis: **{}** · Policy: **{}**\n",
+        overview
+            .highest
+            .map(overview::label)
+            .unwrap_or("None detected"),
+        if overview.complete { "" } else { " (so far)" },
+        if overview.complete {
+            "complete"
+        } else {
+            "incomplete"
+        },
+        if r.policy.exceeded {
+            "EXCEEDED"
+        } else {
+            "not exceeded"
+        }
+    );
+    let counts: Vec<_> = LEVELS
+        .iter()
+        .map(|level| format!("{} {}", overview::label(*level), overview.count(*level)))
+        .collect();
+    let _ = writeln!(s, "{}\n", counts.join(" · "));
+    let _ = writeln!(
+        s,
+        "Security: {} · Privacy: {} · Provenance: {}\n",
+        overview.category(Finding::is_security),
+        overview.category(Finding::is_privacy),
+        overview.category(Finding::is_provenance)
+    );
+    for finding in &overview.highlights {
+        let _ = writeln!(
+            s,
+            "- **[{}]** {}",
+            overview::label(finding.severity),
+            overview::compact(&finding.title, 180)
+        );
+    }
+    if r.findings.len() > overview.highlights.len() {
+        let _ = writeln!(
+            s,
+            "- {} more finding(s) in the full report.",
+            r.findings.len() - overview.highlights.len()
+        );
+    }
+    if let Some(takeaway) = overview::ai_takeaway(r) {
+        let _ = writeln!(s, "\n**AI takeaway (unverified):** {takeaway}");
+    }
+    if !r.coverage.skipped.is_empty() || !r.coverage.unsupported.is_empty() {
+        let _ = writeln!(
+            s,
+            "\nCoverage gaps: {} skipped, {} unsupported.",
+            r.coverage.skipped.len(),
+            r.coverage.unsupported.len()
+        );
+    }
+    if r.isolation.reduced {
+        let _ = writeln!(
+            s,
+            "\nReduced isolation: {}.",
+            r.isolation.missing.join(", ")
+        );
+    }
+    let _ = writeln!(
+        s,
+        "\n{} Static analysis is not a safety guarantee.\n",
+        overview.action()
+    );
+}
 
 pub fn markdown(r: &Report) -> String {
     let mut s = String::new();
     let a = r.artifacts.first();
     let _ = writeln!(s, "# ByteBouncer report {}\n", r.scan_id);
+    summary(&mut s, r);
+    let _ = writeln!(s, "## Scan details\n");
     if let Some(a) = a {
         let _ = writeln!(
             s,
@@ -67,6 +163,25 @@ pub fn markdown(r: &Report) -> String {
     );
     let _ = writeln!(s);
 
+    section(
+        &mut s,
+        "Security",
+        r.findings.iter().filter(|f| f.is_security()),
+        r,
+    );
+    section(
+        &mut s,
+        "Privacy",
+        r.findings.iter().filter(|f| f.is_privacy()),
+        r,
+    );
+    section(
+        &mut s,
+        "Provenance",
+        r.findings.iter().filter(|f| f.is_provenance()),
+        r,
+    );
+
     if let Some(m) = &r.model {
         let _ = writeln!(s, "## AI investigation ({})\n", m.model_id);
         let _ = writeln!(
@@ -87,25 +202,6 @@ pub fn markdown(r: &Report) -> String {
             let _ = writeln!(s);
         }
     }
-
-    section(
-        &mut s,
-        "Security",
-        r.findings.iter().filter(|f| f.is_security()),
-        r,
-    );
-    section(
-        &mut s,
-        "Privacy",
-        r.findings.iter().filter(|f| f.is_privacy()),
-        r,
-    );
-    section(
-        &mut s,
-        "Provenance",
-        r.findings.iter().filter(|f| f.is_provenance()),
-        r,
-    );
 
     let _ = writeln!(s, "## Coverage\n");
     list(&mut s, "Analyzed", &r.coverage.analyzed);
@@ -137,9 +233,10 @@ fn section<'a>(
     r: &Report,
 ) {
     let _ = writeln!(s, "## {title}\n");
-    let mut any = false;
+    let mut findings: Vec<_> = findings.collect();
+    findings.sort_by_key(|f| std::cmp::Reverse(f.severity));
+    let any = !findings.is_empty();
     for f in findings {
-        any = true;
         let _ = writeln!(
             s,
             "- **[{:?}] {}** (`{}`, {:?})",
@@ -205,4 +302,29 @@ fn list(s: &mut String, label: &str, items: &[String]) {
         let _ = writeln!(s, "- {i}");
     }
     let _ = writeln!(s);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bytebouncer_core::Severity;
+
+    #[test]
+    fn default_summary_does_not_dump_the_investigation() {
+        let mut r = overview::test_report();
+        r.findings.push(overview::test_finding(
+            Severity::Medium,
+            "Reads the clipboard",
+        ));
+        r.model = Some(overview::test_model());
+        r.model_notes.summary =
+            Some("TL;DR: Clipboard access needs review.\n\n1. Very long investigation".into());
+        let text = brief(&r, true);
+        assert!(text.contains("Medium 1"));
+        assert!(text.contains("Clipboard access needs review."));
+        assert!(!text.contains("Very long investigation"));
+        assert!(text.contains("bytebouncer report"));
+        assert!(markdown(&r).contains("Very long investigation"));
+        assert!(!brief(&r, false).contains("Full report:"));
+    }
 }

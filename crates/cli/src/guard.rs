@@ -575,7 +575,7 @@ fn review(payload: &Path, args: &Args, config: &Config) -> Result<Option<Reviewe
             .validate_evidence_links()
             .map_err(anyhow::Error::msg)?;
         store::save(&report)?;
-        display(&render::markdown(&report));
+        display(&render::brief(&report, true));
         let reviewed = reviewed_files(payload, &report)?;
         if cancel.load(std::sync::atomic::Ordering::SeqCst) {
             return Ok(None);
