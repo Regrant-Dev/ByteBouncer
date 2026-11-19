@@ -40,7 +40,7 @@ pub fn run(args: &Args, config: Option<&Path>) -> Result<ExitCode> {
         anyhow::bail!("automatic shell integration currently supports Linux (bash and zsh)");
     }
     if args.disable {
-        println!("unset -f {} sudo", MANAGERS.join(" "));
+        println!("unset -f {} sudo pacman-direct yay-direct", MANAGERS.join(" "));
         return Ok(ExitCode::Ok);
     }
     let options = guard::Args {
@@ -84,6 +84,8 @@ fn shell_source(prefix: &str) -> String {
     for manager in MANAGERS {
         source.push_str(&format!("{manager}() {{ {prefix} {manager} \"$@\"; }}\n"));
     }
+    source.push_str("pacman-direct() { command sudo pacman \"$@\"; }\n");
+    source.push_str("yay-direct() { command yay \"$@\"; }\n");
     // A shell function for pacman alone does not catch `sudo pacman`.
     // Preserve every other sudo invocation verbatim. Sudo options are not
     // interpreted or silently removed by this entry point.

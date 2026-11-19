@@ -350,6 +350,17 @@ fn requires_root(program: &str, args: &[String]) -> bool {
     }
 }
 
+pub fn pass(command: &[String]) -> Result<ExitCode> {
+    match command.split_first() {
+        Some((manager, args)) if manager == "pacman" => native(manager, args, true),
+        Some((manager, args)) if manager == "yay" => native(manager, args, false),
+        _ => {
+            eprintln!("error: pass requires pacman or yay after --");
+            Ok(ExitCode::InvalidRequest)
+        }
+    }
+}
+
 fn native(program: &str, args: &[String], root: bool) -> Result<ExitCode> {
     let mut cmd = if root {
         let mut cmd = Command::new("sudo");

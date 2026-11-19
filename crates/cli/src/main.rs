@@ -55,6 +55,12 @@ struct Cli {
 enum Command {
     /// Download packages, scan the exact files, and wait before installing (Linux)
     Guard(guard::Args),
+    /// Run one pacman or yay command without a ByteBouncer scan
+    Pass {
+        /// Package manager and its arguments, for example: -- pacman -S package
+        #[arg(last = true, required = true, num_args = 1..)]
+        command: Vec<String>,
+    },
     /// Print shell functions that automatically guard package-manager commands
     Integration(integration::Args),
     /// Inspect a file, directory, URL, or package request without installing or running it
@@ -313,6 +319,7 @@ fn run(cli: Cli) -> anyhow::Result<ExitCode> {
     };
     match cli.command {
         Command::Guard(args) => guard::run(&args, &config, cli.config.as_deref()),
+        Command::Pass { command } => guard::pass(&command),
         Command::Integration(args) => integration::run(&args, cli.config.as_deref()),
         Command::Inspect(args) => inspect::run(&args.finish(), &config),
         Command::Report {
