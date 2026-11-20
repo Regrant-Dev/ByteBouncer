@@ -56,9 +56,10 @@ enum Command {
     /// Download packages, scan the exact files, and wait before installing (Linux)
     Guard(guard::Args),
     /// Run one pacman or yay command without a ByteBouncer scan
+    #[command(short_flag = 'p')]
     Pass {
-        /// Package manager and its arguments, for example: -- pacman -S package
-        #[arg(last = true, required = true, num_args = 1..)]
+        /// Package manager and its arguments, for example: pacman -S package
+        #[arg(trailing_var_arg = true, required = true, num_args = 1..)]
         command: Vec<String>,
     },
     /// Print shell functions that automatically guard package-manager commands
@@ -452,6 +453,31 @@ fn run(cli: Cli) -> anyhow::Result<ExitCode> {
             } else {
                 setup::run(tool, yes, allow_reduced_isolation)
             }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Cli, Command};
+    use clap::Parser;
+
+    #[test]
+    fn pass_forwards_package_manager_arguments() {
+        for (args, expected) in [
+            (
+                &["bytebouncer", "pass", "--", "yay", "-Syu"][..],
+                &["yay", "-Syu"][..],
+            ),
+            (
+                &["bytebouncer", "-p", "sudo", "yay", "-Syu"][..],
+                &["sudo", "yay", "-Syu"][..],
+            ),
+        ] {
+            let Command::Pass { command } = Cli::try_parse_from(args).unwrap().command else {
+                panic!("expected the pass subcommand");
+            };
+            assert_eq!(command, expected);
         }
     }
 }

@@ -351,11 +351,15 @@ fn requires_root(program: &str, args: &[String]) -> bool {
 }
 
 pub fn pass(command: &[String]) -> Result<ExitCode> {
+    let command = match command {
+        [prefix, args @ ..] if prefix == "sudo" => args,
+        _ => command,
+    };
     match command.split_first() {
         Some((manager, args)) if manager == "pacman" => native(manager, args, true),
         Some((manager, args)) if manager == "yay" => native(manager, args, false),
         _ => {
-            eprintln!("error: pass requires pacman or yay after --");
+            eprintln!("error: pass requires pacman or yay");
             Ok(ExitCode::InvalidRequest)
         }
     }
